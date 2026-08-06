@@ -1,4 +1,5 @@
 import { MusicControl } from "./music-control";
+import { PangboboPet } from "./pangbobo-pet";
 import { ThemeControl } from "./theme-control";
 
 const notes = [
@@ -105,6 +106,7 @@ export default function Home() {
       </footer>
 
       <MusicControl />
+      <PangboboPet />
     </main>
   );
 }

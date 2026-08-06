@@ -52,6 +52,7 @@ export function MusicControl() {
     playChord();
     timerRef.current = setInterval(playChord, 4200);
     setPlaying(true);
+    window.dispatchEvent(new CustomEvent("pangbobo:music", { detail: { playing: true } }));
   }
 
   function stopMusic() {
@@ -62,6 +63,7 @@ export function MusicControl() {
     contextRef.current = null;
     gainRef.current = null;
     setPlaying(false);
+    window.dispatchEvent(new CustomEvent("pangbobo:music", { detail: { playing: false } }));
   }
 
   function toggleMusic() {

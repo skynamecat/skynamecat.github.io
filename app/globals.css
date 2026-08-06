@@ -156,7 +156,7 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   position: fixed;
   right: 24px;
   bottom: 24px;
-  z-index: 20;
+  z-index: 32;
   height: 46px;
   padding: 0 18px;
   display: flex;
@@ -170,6 +170,75 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   cursor: pointer;
   font: 12px inherit;
   transition: color .2s, border-color .2s, transform .2s;
+}
+
+.pangbobo-pet {
+  position: fixed;
+  z-index: 30;
+  left: 0;
+  bottom: 0;
+  width: 170px;
+  height: 210px;
+  pointer-events: none;
+  transition-property: transform;
+  transition-timing-function: linear;
+  will-change: transform;
+}
+.pangbobo-stage {
+  position: relative;
+  width: 170px;
+  height: 210px;
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+.pangbobo-stage:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 18px; }
+.pangbobo-name {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 8px;
+  width: max-content;
+  max-width: 150px;
+  padding: 5px 9px;
+  color: var(--muted);
+  background: var(--music-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition: opacity .2s ease, transform .2s ease;
+  font: 10px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: nowrap;
+}
+.pangbobo-stage:hover .pangbobo-name,
+.pangbobo-stage:focus-visible .pangbobo-name { opacity: 1; transform: translate(-50%, 0); }
+.pangbobo-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 170px;
+  height: 210px;
+  filter: drop-shadow(0 9px 7px rgba(0, 0, 0, .2));
+}
+.pangbobo-notes,
+.pangbobo-sleep {
+  position: absolute;
+  z-index: 2;
+  left: 128px;
+  top: 54px;
+  color: var(--moss);
+  font: 600 14px/1 ui-monospace, monospace;
+  animation: pangbobo-float 1.5s ease-in-out infinite;
+}
+.pangbobo-sleep { top: 60px; color: var(--dim); letter-spacing: 2px; animation-duration: 2.2s; }
+@keyframes pangbobo-float {
+  50% { opacity: .5; transform: translate(4px, -8px) rotate(4deg); }
 }
 .music-control:hover { color: var(--ink); border-color: rgba(169,196,162,.42); transform: translateY(-2px); }
 .music-control:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; }
@@ -402,6 +471,7 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   .note-card h3 { margin-top: 54px; }
   footer { width: calc(100% - 40px); gap: 20px; }
   .music-control { right: 18px; bottom: 18px; }
+  .pangbobo-pet { bottom: -10px; }
   .header-actions { gap: 16px; }
   .not-found-page { align-items: flex-start; padding: 132px 20px 56px; }
   .not-found-content { grid-template-columns: 1fr; align-items: start; gap: 52px; }
@@ -428,4 +498,5 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .pangbobo-pet { transition-duration: 0ms !important; }
 }
