@@ -14,6 +14,26 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 
 type PetMode = "walking" | "phone" | "drink" | "cake" | "music" | "rest" | "laptop" | "wave" | "stretch" | "look" | "happy";
 type Direction = "left" | "right";
+type ModelQuality = "balanced" | "lite";
+
+type NetworkInformation = {
+  downlink?: number;
+  effectiveType?: string;
+  saveData?: boolean;
+};
+
+function chooseModelQuality(): ModelQuality {
+  const connection = (navigator as Navigator & { connection?: NetworkInformation }).connection;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+  const slowConnection = connection?.saveData
+    || ["slow-2g", "2g", "3g"].includes(connection?.effectiveType ?? "")
+    || (connection?.downlink !== undefined && connection.downlink <= 2);
+  const modestDevice = (memory !== undefined && memory <= 4)
+    || navigator.hardwareConcurrency <= 4
+    || window.matchMedia("(max-width: 720px)").matches;
+
+  return slowConnection || modestDevice ? "lite" : "balanced";
+}
 
 const labels: Record<PetMode, string> = {
   walking: "散步中",
@@ -444,8 +464,10 @@ export function PangboboPet() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const renderCanvas = canvas;
+    const modelQuality = chooseModelQuality();
+    canvas.dataset.modelQuality = modelQuality;
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, modelQuality === "lite" ? 1.15 : 1.5));
     renderer.setSize(170, 210, false);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.shadowMap.enabled = false;
@@ -474,9 +496,7 @@ export function PangboboPet() {
     const animationActions: Record<string, THREE.AnimationAction> = {};
     let activeActionName = "";
     let disposed = false;
-    loader.load(
-      "/pangbobo/pangbobo-actions.glb",
-      (gltf) => {
+    const onModelLoaded = (gltf: Awaited<ReturnType<GLTFLoader["loadAsync"]>>) => {
         if (disposed) return;
         const imported = gltf.scene;
         const sourceBounds = new THREE.Box3().setFromObject(imported);
@@ -518,11 +538,26 @@ export function PangboboPet() {
           });
           canvas.setAttribute("aria-label", `庞菠菠3D画布，已加载${gltf.animations.length}段动画`);
         }
-      },
+        canvas.dataset.modelLoaded = "true";
+      };
+    const liteModelUrl = "/pangbobo/pangbobo-actions-lite.glb";
+    const preferredModelUrl = modelQuality === "lite"
+      ? liteModelUrl
+      : "/pangbobo/pangbobo-actions-balanced.glb";
+    const markLoadError = () => {
+      if (!disposed) canvas.dataset.loadError = "true";
+    };
+    loader.load(
+      preferredModelUrl,
+      onModelLoaded,
       undefined,
-      () => {
-        if (!disposed) canvas.dataset.loadError = "true";
-      },
+      modelQuality === "balanced"
+        ? () => {
+            if (disposed) return;
+            canvas.dataset.modelQuality = "lite-fallback";
+            loader.load(liteModelUrl, onModelLoaded, undefined, markLoadError);
+          }
+        : markLoadError,
     );
 
     const accessoryGold = new THREE.MeshStandardMaterial({ color: 0xd9ad67, roughness: 0.62 });
