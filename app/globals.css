@@ -192,10 +192,14 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   color: var(--ink);
   background: transparent;
   border: 0;
-  cursor: pointer;
+  cursor: grab;
   pointer-events: auto;
+  touch-action: none;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+.pangbobo-stage:active,
+.pangbobo-pet.is-dragging .pangbobo-stage { cursor: grabbing; }
 .pangbobo-stage:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 18px; }
 .pangbobo-name {
   position: absolute;
@@ -217,7 +221,8 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   white-space: nowrap;
 }
 .pangbobo-stage:hover .pangbobo-name,
-.pangbobo-stage:focus-visible .pangbobo-name { opacity: 1; transform: translate(-50%, 0); }
+.pangbobo-stage:focus-visible .pangbobo-name,
+.pangbobo-pet.is-dragging .pangbobo-name { opacity: 1; transform: translate(-50%, 0); }
 .pangbobo-canvas {
   position: absolute;
   inset: 0;
@@ -237,6 +242,121 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   animation: pangbobo-float 1.5s ease-in-out infinite;
 }
 .pangbobo-sleep { top: 60px; color: var(--dim); letter-spacing: 2px; animation-duration: 2.2s; }
+.pangbobo-action-menu {
+  position: absolute;
+  z-index: 8;
+  left: 4px;
+  bottom: 194px;
+  width: 214px;
+  padding: 10px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--music-bg) 94%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 18px 45px rgba(20, 25, 20, .16);
+  backdrop-filter: blur(18px);
+  pointer-events: auto;
+  transform-origin: left bottom;
+  animation: pangbobo-menu-in .16s ease-out both;
+}
+.pangbobo-action-menu.align-right {
+  right: 4px;
+  left: auto;
+  transform-origin: right bottom;
+}
+.pangbobo-menu-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 1px 3px 8px;
+  font-size: 12px;
+  font-weight: 650;
+}
+.pangbobo-menu-heading small {
+  color: var(--dim);
+  font: 9px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-weight: 400;
+}
+.pangbobo-menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.pangbobo-menu-grid button,
+.pangbobo-overlay-action {
+  appearance: none;
+  min-height: 32px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  cursor: pointer;
+  font: 11px/1.2 inherit;
+  text-align: left;
+  transition: color .16s, background .16s, border-color .16s;
+}
+.pangbobo-menu-grid button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px;
+}
+.pangbobo-menu-grid button > span {
+  width: 14px;
+  color: var(--moss);
+  font: 700 13px/1 ui-monospace, monospace;
+  text-align: center;
+}
+.pangbobo-menu-grid button:hover,
+.pangbobo-overlay-action:hover {
+  color: var(--ink);
+  background: rgba(169, 196, 162, .1);
+  border-color: rgba(169, 196, 162, .25);
+}
+.pangbobo-menu-grid button.is-selected,
+.pangbobo-overlay-action.is-selected {
+  color: var(--ink);
+  background: rgba(169, 196, 162, .18);
+  border-color: rgba(113, 143, 105, .34);
+}
+.pangbobo-menu-grid button:focus-visible,
+.pangbobo-overlay-action:focus-visible {
+  outline: 2px solid var(--moss);
+  outline-offset: 1px;
+}
+.pangbobo-menu-divider {
+  height: 1px;
+  margin: 8px 2px;
+  background: var(--line);
+}
+.pangbobo-overlay-action {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 8px;
+}
+.pangbobo-overlay-action > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+.pangbobo-overlay-action strong { font-size: 11px; font-weight: 650; }
+.pangbobo-overlay-action small { color: var(--dim); font-size: 9px; }
+.pangbobo-menu-check {
+  display: grid;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  color: var(--moss);
+  border: 1px solid rgba(113, 143, 105, .36);
+  border-radius: 50%;
+  font: 700 12px/1 ui-monospace, monospace;
+}
+@keyframes pangbobo-menu-in {
+  from { opacity: 0; transform: translateY(5px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 @keyframes pangbobo-float {
   50% { opacity: .5; transform: translate(4px, -8px) rotate(4deg); }
 }

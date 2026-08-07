@@ -15,8 +15,19 @@ export function MusicControl() {
   const gainRef = useRef<GainNode | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const stepRef = useRef(0);
+  const playingRef = useRef(false);
 
   useEffect(() => () => stopMusic(), []);
+  useEffect(() => {
+    function handleMusicRequest(event: Event) {
+      const requested = (event as CustomEvent<{ playing: boolean }>).detail.playing;
+      if (requested === playingRef.current) return;
+      if (requested) void startMusic();
+      else stopMusic();
+    }
+    window.addEventListener("pangbobo:music-request", handleMusicRequest);
+    return () => window.removeEventListener("pangbobo:music-request", handleMusicRequest);
+  }, []);
 
   function playChord() {
     const context = contextRef.current;
@@ -51,6 +62,7 @@ export function MusicControl() {
     await context.resume();
     playChord();
     timerRef.current = setInterval(playChord, 4200);
+    playingRef.current = true;
     setPlaying(true);
     window.dispatchEvent(new CustomEvent("pangbobo:music", { detail: { playing: true } }));
   }
@@ -62,6 +74,7 @@ export function MusicControl() {
     contextRef.current?.close();
     contextRef.current = null;
     gainRef.current = null;
+    playingRef.current = false;
     setPlaying(false);
     window.dispatchEvent(new CustomEvent("pangbobo:music", { detail: { playing: false } }));
   }
