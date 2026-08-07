@@ -12,13 +12,14 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-type PetMode = "walking" | "phone" | "drink" | "music" | "rest" | "laptop" | "wave" | "stretch" | "look" | "happy";
+type PetMode = "walking" | "phone" | "drink" | "cake" | "music" | "rest" | "laptop" | "wave" | "stretch" | "look" | "happy";
 type Direction = "left" | "right";
 
 const labels: Record<PetMode, string> = {
   walking: "散步中",
   phone: "玩会儿手机",
   drink: "喝奶茶中",
+  cake: "吃小蛋糕中",
   music: "戴着耳机听歌 ♪",
   rest: "休息一下…",
   laptop: "看笔记本中",
@@ -28,11 +29,12 @@ const labels: Record<PetMode, string> = {
   happy: "心情不错 ♪",
 };
 
-const ambientModes: PetMode[] = ["phone", "drink", "rest", "wave", "stretch", "look", "happy"];
+const ambientModes: PetMode[] = ["phone", "drink", "cake", "rest", "wave", "stretch", "look", "happy"];
 const actionMenuModes: Array<{ mode: PetMode; label: string; symbol: string }> = [
   { mode: "walking", label: "散步", symbol: "↔" },
   { mode: "phone", label: "玩手机", symbol: "▣" },
   { mode: "drink", label: "喝奶茶", symbol: "◌" },
+  { mode: "cake", label: "吃小蛋糕", symbol: "△" },
   { mode: "laptop", label: "看电脑", symbol: "⌨" },
   { mode: "rest", label: "休息", symbol: "◡" },
   { mode: "wave", label: "打招呼", symbol: "◇" },
@@ -572,6 +574,40 @@ export function PangboboPet() {
     milkTea.rotation.set(-0.08, 0.18, -0.04);
     modelRoot.add(milkTea);
 
+    const plateMaterial = new THREE.MeshStandardMaterial({ color: 0xf4eee5, roughness: 0.72 });
+    const cakeMaterial = new THREE.MeshStandardMaterial({ color: 0xd6a071, roughness: 0.82 });
+    const creamMaterial = new THREE.MeshStandardMaterial({ color: 0xfff3e5, roughness: 0.78 });
+    const berryMaterial = new THREE.MeshStandardMaterial({ color: 0xc95f64, roughness: 0.72 });
+    const forkMaterial = new THREE.MeshStandardMaterial({ color: 0xc9c2b8, roughness: 0.46, metalness: 0.35 });
+    const cakePlate = new THREE.Group();
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.34, 0.045, 28), plateMaterial);
+    const cakeBase = new THREE.Mesh(new RoundedBoxGeometry(0.42, 0.3, 0.34, 3, 0.045), cakeMaterial);
+    cakeBase.position.y = 0.18;
+    const lowerCream = new THREE.Mesh(new RoundedBoxGeometry(0.43, 0.055, 0.35, 3, 0.025), creamMaterial);
+    lowerCream.position.y = 0.13;
+    const topCream = new THREE.Mesh(new RoundedBoxGeometry(0.44, 0.07, 0.36, 3, 0.03), creamMaterial);
+    topCream.position.y = 0.35;
+    const strawberry = new THREE.Mesh(new THREE.SphereGeometry(0.095, 14, 10), berryMaterial);
+    strawberry.scale.set(1, 0.85, 0.9);
+    strawberry.position.set(0.03, 0.46, 0.02);
+    cakePlate.add(plate, cakeBase, lowerCream, topCream, strawberry);
+    cakePlate.rotation.set(0.05, -0.12, -0.02);
+    modelRoot.add(cakePlate);
+
+    const cakeFork = new THREE.Group();
+    const forkHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.026, 0.5, 8), forkMaterial);
+    forkHandle.position.y = 0.05;
+    const forkHead = new THREE.Mesh(new RoundedBoxGeometry(0.12, 0.12, 0.025, 2, 0.018), forkMaterial);
+    forkHead.position.y = 0.35;
+    cakeFork.add(forkHandle, forkHead);
+    for (const x of [-0.045, -0.015, 0.015, 0.045]) {
+      const tine = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.13, 6), forkMaterial);
+      tine.position.set(x, 0.46, 0);
+      cakeFork.add(tine);
+    }
+    cakeFork.rotation.set(-0.12, 0.08, -0.14);
+    modelRoot.add(cakeFork);
+
     const headphones = new THREE.Group();
     const frontBandCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(-0.74, 0.1, -0.38),
@@ -637,6 +673,7 @@ export function PangboboPet() {
     let previousTime = 0;
     let phonePresence = 0;
     let drinkPresence = 0;
+    let cakePresence = 0;
     let headphonesPresence = 0;
     let laptopPresence = 0;
     const scratchHead = new THREE.Vector3();
@@ -649,6 +686,8 @@ export function PangboboPet() {
     const headphonesOffset = new THREE.Vector3(0, 0.4, 0.06);
     const phoneOffset = new THREE.Vector3(0.03, 0.03, 0.34);
     const milkTeaOffset = new THREE.Vector3(0.12, -0.05, 0.34);
+    const cakePlateOffset = new THREE.Vector3(-0.22, 0.08, 0.34);
+    const cakeForkOffset = new THREE.Vector3(0.04, 0.02, 0.28);
     const laptopOffset = new THREE.Vector3(0, 0.08, 0.32);
 
     const bonePositionInRoot = (name: string, target: THREE.Vector3) => {
@@ -679,18 +718,25 @@ export function PangboboPet() {
 
       phonePresence = THREE.MathUtils.damp(phonePresence, current === "phone" ? 1 : 0, 7, delta);
       drinkPresence = THREE.MathUtils.damp(drinkPresence, current === "drink" ? 1 : 0, 7, delta);
+      cakePresence = THREE.MathUtils.damp(cakePresence, current === "cake" ? 1 : 0, 7, delta);
       headphonesPresence = THREE.MathUtils.damp(headphonesPresence, listening ? 1 : 0, 6, delta);
       laptopPresence = THREE.MathUtils.damp(laptopPresence, working ? 1 : 0, 6, delta);
       phone.visible = phonePresence > 0.015;
       milkTea.visible = drinkPresence > 0.015;
+      cakePlate.visible = cakePresence > 0.015;
+      cakeFork.visible = cakePresence > 0.015;
       headphones.visible = headphonesPresence > 0.015;
       laptop.visible = laptopPresence > 0.015;
       phone.scale.setScalar(phonePresence);
       milkTea.scale.setScalar(drinkPresence);
+      cakePlate.scale.setScalar(cakePresence);
+      cakeFork.scale.setScalar(cakePresence);
       headphones.scale.setScalar(headphonesPresence);
       laptop.scale.setScalar(laptopPresence);
       phone.rotation.z = 0.08 + Math.sin(time * 1.8) * 0.008 * phonePresence;
       milkTea.rotation.z = -0.04 + Math.sin(time * 1.4) * 0.008 * drinkPresence;
+      cakePlate.rotation.z = -0.02 + Math.sin(time * 1.1) * 0.006 * cakePresence;
+      cakeFork.rotation.z = -0.14 + Math.sin(time * 2.2) * 0.025 * cakePresence;
       laptop.rotation.z = Math.sin(time * 1.3) * 0.006 * laptopPresence;
       const targetYaw = walking ? (directionRef.current === "left" ? -1.12 : 1.12) : 0;
       modelRoot.rotation.y = THREE.MathUtils.damp(modelRoot.rotation.y, targetYaw, walking ? 9 : 7, delta);
@@ -756,6 +802,8 @@ export function PangboboPet() {
               ? "Phone"
               : current === "drink"
                 ? "Drink"
+                : current === "cake"
+                  ? "EatCake"
               : current === "wave"
                 ? "Wave"
                 : current === "stretch"
@@ -783,6 +831,8 @@ export function PangboboPet() {
           boneOffset("Head", 0.08, 0, -0.04);
         } else if (current === "drink") {
           boneOffset("Head", 0.04, -0.02, 0);
+        } else if (current === "cake") {
+          boneOffset("Head", 0.04, 0.02, 0);
         } else if (resting) {
           boneOffset("Head", 0, 0, -0.08);
         }
@@ -807,6 +857,12 @@ export function PangboboPet() {
         phone.position.add(phoneOffset);
         milkTea.position.copy(scratchRightHand);
         milkTea.position.add(milkTeaOffset);
+        cakeFork.position.copy(scratchRightHand);
+        cakeFork.position.add(cakeForkOffset);
+      }
+      if (bonePositionInRoot("LeftHand", scratchLeftHand)) {
+        cakePlate.position.copy(scratchLeftHand);
+        cakePlate.position.add(cakePlateOffset);
       }
       if (
         bonePositionInRoot("LeftHand", scratchLeftHand)
@@ -843,7 +899,7 @@ export function PangboboPet() {
     if (suppressClickRef.current) return;
     if (scrollingRef.current) return;
     clearTimer();
-    const cycle: PetMode[] = ["phone", "drink", "wave", "stretch", "look", "happy", "rest"];
+    const cycle: PetMode[] = ["phone", "drink", "cake", "wave", "stretch", "look", "happy", "rest"];
     const index = cycle.indexOf(mode);
     if (index === cycle.length - 1) beginWalk();
     else setMode(cycle[index >= 0 ? index + 1 : 0]);
