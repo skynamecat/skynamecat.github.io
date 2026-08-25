@@ -24,3 +24,9 @@
 ```
 
 输出 `frontend/public/pangbobo/pangbobo-actions-complete.glb`，包含统一 28 骨骨架上的 24 个日常与舞蹈片段。构建会检查动作名称，缺少任何标准片段都会失败。
+
+```powershell
+.\tools\blender\validate-action-pack.ps1
+```
+
+验证动作名称、骨架数量和循环首尾姿势，结果写入 `docs/pangbobo/complete-pack-qa.json`。

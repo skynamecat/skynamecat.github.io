@@ -1,0 +1,273 @@
+{
+  "input": "C:/Users/skynamecat/Documents/ChatGPT/skynamecat.github.io/frontend/public/pangbobo/pangbobo-actions-complete.glb",
+  "skeletonVersion": "skeleton-v1",
+  "boneCount": 28,
+  "missingActions": [],
+  "unexpectedActions": [],
+  "actions": [
+    {
+      "name": "ArmWave",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": false,
+      "loopLocationError": 1.3e-05,
+      "loopAngleErrorDegrees": 67.654,
+      "loopPass": true
+    },
+    {
+      "name": "BodyWave",
+      "frames": [
+        0.8,
+        48.0
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.119,
+      "loopPass": true
+    },
+    {
+      "name": "Bounce",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.097,
+      "loopPass": true
+    },
+    {
+      "name": "Drink",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "EatCake",
+      "frames": [
+        0.8,
+        57.6
+      ],
+      "loopRequired": false,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Freeze",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": false,
+      "loopLocationError": 2.6e-05,
+      "loopAngleErrorDegrees": 57.296,
+      "loopPass": true
+    },
+    {
+      "name": "FunkBlast",
+      "frames": [
+        0.8,
+        76.8
+      ],
+      "loopRequired": false,
+      "loopLocationError": 2.1e-05,
+      "loopAngleErrorDegrees": 179.909,
+      "loopPass": true
+    },
+    {
+      "name": "Groove",
+      "frames": [
+        0.8,
+        57.6
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.04,
+      "loopPass": true
+    },
+    {
+      "name": "Happy",
+      "frames": [
+        0.8,
+        22.4
+      ],
+      "loopRequired": false,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Idle",
+      "frames": [
+        0.8,
+        48.0
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "KickStep",
+      "frames": [
+        0.8,
+        57.6
+      ],
+      "loopRequired": false,
+      "loopLocationError": 6e-06,
+      "loopAngleErrorDegrees": 28.648,
+      "loopPass": true
+    },
+    {
+      "name": "Laptop",
+      "frames": [
+        0.8,
+        48.0
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Lock",
+      "frames": [
+        0.8,
+        48.0
+      ],
+      "loopRequired": false,
+      "loopLocationError": 2.7e-05,
+      "loopAngleErrorDegrees": 137.51,
+      "loopPass": true
+    },
+    {
+      "name": "Look",
+      "frames": [
+        0.8,
+        62.4
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Music",
+      "frames": [
+        0.8,
+        28.8
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Phone",
+      "frames": [
+        0.8,
+        57.6
+      ],
+      "loopRequired": true,
+      "loopLocationError": 9e-06,
+      "loopAngleErrorDegrees": 2.827,
+      "loopPass": true
+    },
+    {
+      "name": "Pop",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": false,
+      "loopLocationError": 1.1e-05,
+      "loopAngleErrorDegrees": 36.182,
+      "loopPass": true
+    },
+    {
+      "name": "Rest",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Robot",
+      "frames": [
+        0.8,
+        48.0
+      ],
+      "loopRequired": false,
+      "loopLocationError": 2.4e-05,
+      "loopAngleErrorDegrees": 103.132,
+      "loopPass": true
+    },
+    {
+      "name": "Slide",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.224,
+      "loopPass": true
+    },
+    {
+      "name": "Spin",
+      "frames": [
+        0.8,
+        48.0
+      ],
+      "loopRequired": false,
+      "loopLocationError": 1.4e-05,
+      "loopAngleErrorDegrees": 179.838,
+      "loopPass": true
+    },
+    {
+      "name": "Stretch",
+      "frames": [
+        0.8,
+        38.4
+      ],
+      "loopRequired": false,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.0,
+      "loopPass": true
+    },
+    {
+      "name": "Walk",
+      "frames": [
+        0.8,
+        20.0
+      ],
+      "loopRequired": true,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.256,
+      "loopPass": true
+    },
+    {
+      "name": "Wave",
+      "frames": [
+        0.8,
+        32.0
+      ],
+      "loopRequired": false,
+      "loopLocationError": 0.0,
+      "loopAngleErrorDegrees": 0.369,
+      "loopPass": true
+    }
+  ]
+}
