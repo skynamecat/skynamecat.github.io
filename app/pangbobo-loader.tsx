@@ -15,7 +15,7 @@ type NetworkInformation = {
 
 export function PangboboLoader() {
   const [ready, setReady] = useState(false);
-  const [minimal, setMinimal] = useState(false);
+  const [minimal, setMinimal] = useState(true);
 
   useEffect(() => {
     const syncMode = () => setMinimal(document.documentElement.dataset.displayMode === "minimal");

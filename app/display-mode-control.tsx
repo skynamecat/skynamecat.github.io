@@ -12,7 +12,7 @@ function readDisplayMode(): DisplayMode {
 }
 
 export function DisplayModeControl() {
-  const [mode, setMode] = useState<DisplayMode>("standard");
+  const [mode, setMode] = useState<DisplayMode>("minimal");
 
   useEffect(() => {
     setMode(readDisplayMode());

@@ -580,6 +580,16 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   backdrop-filter: blur(18px);
   font-size: 12px;
 }
+.minimal-dock input {
+  min-width: 0;
+  flex: 1;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 12px;
+}
+.minimal-dock input::placeholder { color: var(--dim); }
 .minimal-dock button {
   width: 38px;
   height: 38px;
@@ -587,8 +597,13 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 12px;
+  cursor: pointer;
   font-size: 16px;
+  transition: color .2s, border-color .2s, background .2s;
 }
+.minimal-dock button:not(:disabled) { color: var(--ink); border-color: color-mix(in srgb, var(--moss) 58%, var(--line)); }
+.minimal-dock button:disabled { cursor: default; opacity: .55; }
+.minimal-dock button:focus-visible { outline: 2px solid var(--moss); outline-offset: 2px; }
 .theme-control:disabled { cursor: wait; }
 .theme-control:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; }
 .celestial-button {

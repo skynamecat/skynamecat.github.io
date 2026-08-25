@@ -1,4 +1,5 @@
 import { DisplayModeControl } from "./display-mode-control";
+import { MinimalDialogue } from "./minimal-dialogue";
 import { MusicControl } from "./music-control";
 import { PangboboLoader } from "./pangbobo-loader";
 import { ThemeControl } from "./theme-control";
@@ -116,32 +117,7 @@ export default function Home() {
           <p>DEVELOPER · BUILDER · EXPLORER</p>
           <span>互联网与 AI 产品探索者</span>
         </div>
-        <div className="minimal-dialogue" aria-live="polite">
-          <article className="minimal-message from-site is-lead">
-            <span>S</span>
-            <p>你好，我是 skynamecat。</p>
-          </article>
-          <article className="minimal-message from-visitor">
-            <span>你</span>
-            <p>你平时在做什么？</p>
-          </article>
-          <article className="minimal-message from-site">
-            <span>S</span>
-            <p>写代码、整理知识，也把偶尔冒出来的灵感做成小东西。</p>
-          </article>
-          <article className="minimal-message from-visitor">
-            <span>你</span>
-            <p>这里可以看到什么？</p>
-          </article>
-          <article className="minimal-message from-site">
-            <span>S</span>
-            <p>想法、作品，以及一些不急着抵达的探索。慢慢看，随便坐。</p>
-          </article>
-        </div>
-        <div className="minimal-dock" aria-label="介绍状态">
-          <span>庞菠菠正在介绍 skynamecat…</span>
-          <button type="button" disabled aria-label="介绍播放中">↑</button>
-        </div>
+        <MinimalDialogue />
       </section>
 
       <MusicControl />

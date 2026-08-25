@@ -27,9 +27,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: `
           try {
             var mode = localStorage.getItem("sky-display-mode");
-            document.documentElement.dataset.displayMode = mode === "minimal" ? "minimal" : "standard";
+            document.documentElement.dataset.displayMode = mode === "standard" ? "standard" : "minimal";
           } catch (_) {
-            document.documentElement.dataset.displayMode = "standard";
+            document.documentElement.dataset.displayMode = "minimal";
           }
         ` }} />
       </head>
