@@ -3,9 +3,10 @@ import type { RouteKey } from "../types";
 
 const nav: { key: RouteKey; index: string; label: string; hint: string }[] = [
   { key: "studio", index: "01", label: "盲盒工作台", hint: "系列与概率" },
-  { key: "assets", index: "02", label: "素材库", hint: "模型与贴图" },
-  { key: "motions", index: "03", label: "动作质检", hint: "预览与验收" },
-  { key: "releases", index: "04", label: "发布记录", hint: "版本与回滚" }
+  { key: "models", index: "02", label: "模型管理", hint: "预览与版本" },
+  { key: "assets", index: "03", label: "素材库", hint: "贴图与声音" },
+  { key: "motions", index: "04", label: "动作质检", hint: "预览与验收" },
+  { key: "releases", index: "05", label: "发布记录", hint: "版本与回滚" }
 ];
 
 type Props = {

@@ -73,7 +73,7 @@ export function ModelStage({ clipName, modelUrl }: ModelStageProps) {
         setMessage(clip ? `${clip.name} · ${clip.duration.toFixed(1)} 秒` : "模型中没有动画片段");
       },
       undefined,
-      () => setMessage("模型加载失败，请确认公开站已在 3000 端口运行")
+      () => setMessage("模型加载失败，请确认文件格式与访问状态")
     );
 
     const resize = () => {

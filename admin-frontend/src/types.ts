@@ -1,6 +1,8 @@
 export type Rarity = "COMMON" | "UNCOMMON" | "RARE" | "EPIC";
 export type QaStatus = "PENDING" | "REVIEWING" | "PASSED" | "REJECTED";
 export type AssetKind = "MODEL" | "TEXTURE" | "THUMBNAIL" | "AUDIO" | "OTHER";
+export type AssetQuality = "LITE" | "BALANCED" | "FULL";
+export type AssetStatus = "UPLOADED" | "PROCESSING" | "READY" | "REJECTED" | "ARCHIVED";
 export type ReleaseStatus = "PUBLISHED" | "ROLLED_BACK" | "SUPERSEDED";
 
 export type Variant = {
@@ -38,6 +40,19 @@ export type Asset = {
   url: string;
   checksum?: string;
   uploadedAt: string;
+  assetKey: string;
+  quality: AssetQuality;
+  skeletonVersion: string;
+  status: AssetStatus;
+  metadata: Record<string, unknown> | null;
+  updatedAt: string;
+};
+
+export type AssetUpdateInput = {
+  quality: AssetQuality;
+  skeletonVersion: string;
+  status: AssetStatus;
+  metadataJson: string;
 };
 
 export type AnimationQa = {
@@ -66,4 +81,4 @@ export type Release = {
 export type SeriesInput = Omit<Series, "id" | "publishedVersion" | "variants" | "updatedAt">;
 export type VariantInput = Omit<Variant, "id">;
 export type ApiResponse<T> = { code: number; message?: string; data: T };
-export type RouteKey = "studio" | "assets" | "motions" | "releases";
+export type RouteKey = "studio" | "models" | "assets" | "motions" | "releases";

@@ -3,6 +3,7 @@ import type { RouteKey } from "./types";
 
 const routePath: Record<RouteKey, string> = {
   studio: "/manage-app/",
+  models: "/manage-app/models",
   assets: "/manage-app/assets",
   motions: "/manage-app/motions",
   releases: "/manage-app/releases"
@@ -10,6 +11,7 @@ const routePath: Record<RouteKey, string> = {
 
 function readRoute(): RouteKey {
   const path = window.location.pathname.replace(/\/+$/, "");
+  if (path.endsWith("/models")) return "models";
   if (path.endsWith("/assets")) return "assets";
   if (path.endsWith("/motions")) return "motions";
   if (path.endsWith("/releases")) return "releases";

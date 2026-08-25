@@ -5,6 +5,7 @@ import { useAdminRouter } from "./router";
 import type { AnimationQa, Asset, Release, Series } from "./types";
 
 const StudioView = lazy(() => import("./views/StudioView").then((module) => ({ default: module.StudioView })));
+const ModelsView = lazy(() => import("./views/ModelsView").then((module) => ({ default: module.ModelsView })));
 const AssetsView = lazy(() => import("./views/AssetsView").then((module) => ({ default: module.AssetsView })));
 const MotionsView = lazy(() => import("./views/MotionsView").then((module) => ({ default: module.MotionsView })));
 const ReleasesView = lazy(() => import("./views/ReleasesView").then((module) => ({ default: module.ReleasesView })));
@@ -35,6 +36,7 @@ export default function App() {
   return <AppShell route={route} onNavigate={navigate} status={status} busy={busy}>
     <Suspense fallback={<div className="route-loading">正在准备工作台…</div>}>
       {route === "studio" && <StudioView series={series} assets={assets} motions={motions} reload={reload} report={report} />}
+      {route === "models" && <ModelsView assets={assets} reload={reload} report={report} />}
       {route === "assets" && <AssetsView assets={assets} reload={reload} report={report} />}
       {route === "motions" && <MotionsView motions={motions} reload={reload} report={report} />}
       {route === "releases" && <ReleasesView releases={releases} series={series} reload={reload} report={report} />}

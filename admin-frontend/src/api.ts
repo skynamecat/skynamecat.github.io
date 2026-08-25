@@ -2,6 +2,7 @@ import type {
   AnimationQa,
   ApiResponse,
   Asset,
+  AssetUpdateInput,
   QaStatus,
   Release,
   Series,
@@ -86,6 +87,8 @@ export const blindboxApi = {
     body.append("kind", kind);
     return request<Asset>("/assets", { method: "POST", body });
   },
+  updateAsset: (id: number, input: AssetUpdateInput) =>
+    request<Asset>(`/assets/${id}`, { method: "PUT", body: json(input) }),
   deleteAsset: (id: number) => request<void>(`/assets/${id}`, { method: "DELETE" }),
   listMotions: () => request<AnimationQa[]>("/motions"),
   reviewMotion: (id: number, qaStatus: QaStatus, notes: string) =>
