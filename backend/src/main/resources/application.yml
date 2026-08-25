@@ -19,6 +19,10 @@ spring:
           time_zone: UTC
   flyway:
     enabled: true
+  servlet:
+    multipart:
+      max-file-size: ${BLINDBOX_MAX_UPLOAD_SIZE:50MB}
+      max-request-size: ${BLINDBOX_MAX_UPLOAD_SIZE:50MB}
   jackson:
     default-property-inclusion: non_null
 
@@ -43,3 +47,20 @@ logging:
   level:
     root: INFO
     com.skynamecat.testproject: INFO
+
+blindbox:
+  assets:
+    directory: ${BLINDBOX_ASSET_DIRECTORY:./data/blindbox-assets}
+    max-size-bytes: ${BLINDBOX_ASSET_MAX_BYTES:52428800}
+    public-base-url: ${BLINDBOX_ASSET_PUBLIC_BASE_URL:/api/public/blindbox/assets}
+    allowed-content-types:
+      - model/gltf-binary
+      - application/octet-stream
+      - image/png
+      - image/jpeg
+      - image/webp
+      - audio/mpeg
+      - audio/wav
+      - audio/x-wav
+      - audio/ogg
+      - application/json
