@@ -137,9 +137,6 @@ export default function Home() {
             <span>S</span>
             <p>想法、作品，以及一些不急着抵达的探索。慢慢看，随便坐。</p>
           </article>
-          <a className="minimal-github" href="https://github.com/skynamecat" target="_blank" rel="noreferrer">
-            GitHub / 看看我做过的东西 <span aria-hidden="true">↗</span>
-          </a>
         </div>
         <div className="minimal-dock" aria-label="介绍状态">
           <span>庞菠菠正在介绍 skynamecat…</span>

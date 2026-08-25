@@ -562,15 +562,6 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
 .minimal-message span { padding-top: 2px; color: var(--dim); font: 9px/1 ui-monospace, monospace; }
 .minimal-message p { margin: 0; font-size: 13px; line-height: 1.75; }
 .minimal-message.is-lead { color: var(--ink); }
-.minimal-github {
-  width: fit-content;
-  margin: 16px auto 0;
-  padding: 10px 2px;
-  color: var(--moss);
-  border-bottom: 1px solid currentColor;
-  font-size: 12px;
-}
-.minimal-github span { margin-left: 6px; }
 .minimal-dock {
   position: sticky;
   bottom: 18px;
