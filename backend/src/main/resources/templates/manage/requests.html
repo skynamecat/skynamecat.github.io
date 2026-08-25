@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{manage/layout :: layout('请求记录', 'requests', ~{::section})}">
+<section>
+  <header class="page-header"><div><p class="eyebrow">REQUEST TRACE</p><h1>用户请求记录</h1><p class="muted">最近 200 次 API 与管理操作，可按请求编号追踪完整链路。</p></div></header>
+  <div class="table-wrap">
+    <div class="empty" th:if="${#lists.isEmpty(requests)}">还没有请求记录。</div>
+    <table th:unless="${#lists.isEmpty(requests)}">
+      <thead><tr><th>时间</th><th>操作</th><th>状态</th><th>耗时</th><th>来源</th><th>会话</th><th></th></tr></thead>
+      <tbody><tr th:each="item : ${requests}">
+        <td th:text="${item.createdAt}">时间</td>
+        <td><code th:text="${item.method}">POST</code> <span th:text="${item.path}">/api/v1/chat</span></td>
+        <td><span class="pill" th:classappend="${item.statusCode >= 400} ? ' off'" th:text="${item.statusCode}">200</span></td>
+        <td th:text="${item.durationMs + ' ms'}">0 ms</td>
+        <td><span th:text="${item.actor ?: '访客'}">访客</span><br><code th:text="${item.clientIp ?: '-'}">IP</code></td>
+        <td><code th:text="${item.sessionId ?: '-'}">session</code></td>
+        <td><a class="button" th:href="@{/manage/requests/{id}(id=${item.id})}">详情</a></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+</html>

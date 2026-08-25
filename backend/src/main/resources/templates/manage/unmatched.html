@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{manage/layout :: layout('未命中问题', 'unmatched', ~{::section})}">
+<section>
+  <header class="page-header"><div><p class="eyebrow">CONTENT GAPS</p><h1>未命中问题</h1><p class="muted">用户问过但规则没有识别的问题，可据此补充新的意图。</p></div></header>
+  <div class="notice success" th:if="${success}" th:text="${success}"></div>
+  <div class="table-wrap">
+    <div class="empty" th:if="${#lists.isEmpty(items)}">还没有未命中记录。</div>
+    <table th:unless="${#lists.isEmpty(items)}">
+      <thead><tr><th>问题</th><th>出现次数</th><th>最近出现</th><th>状态</th><th></th></tr></thead>
+      <tbody><tr th:each="item : ${items}" th:classappend="${item.resolved} ? ' resolved-row'">
+        <td th:text="${item.content}">问题</td>
+        <td th:text="${item.occurrences}">1</td>
+        <td th:text="${item.lastSeenAt}">时间</td>
+        <td><span class="pill" th:classappend="${item.resolved} ? ' off'" th:text="${item.resolved ? '已处理' : '待处理'}"></span></td>
+        <td><form th:action="@{/manage/unmatched/{id}/resolved(id=${item.id})}" method="post"><input type="hidden" name="resolved" th:value="${!item.resolved}"><button type="submit" th:text="${item.resolved ? '重新打开' : '标为完成'}"></button></form></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+</html>

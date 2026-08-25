@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{manage/layout :: layout(${intent.name}, 'intents', ~{::section})}">
+<section>
+  <header class="page-header">
+    <div><a class="back-link" th:href="@{/manage/intents}">← 所有意图</a><h1 th:text="${intent.name}">意图</h1><code th:text="${intent.code}">code</code></div>
+  </header>
+  <div class="notice danger" th:if="${error}" th:text="${error}"></div>
+  <div class="notice success" th:if="${success}" th:text="${success}"></div>
+
+  <article class="card">
+    <h2>基本设置</h2>
+    <form class="form-grid" th:action="@{/manage/intents/{id}(id=${intent.id})}" method="post">
+      <label><span>名称</span><input name="name" th:value="${intent.name}" maxlength="120" required></label>
+      <label><span>优先级</span><input name="priority" type="number" th:value="${intent.priority}"></label>
+      <label class="checkbox"><input name="enabled" type="checkbox" value="true" th:checked="${intent.enabled}"><span>启用这个意图</span></label>
+      <label class="wide"><span>说明</span><textarea name="description" maxlength="500" th:text="${intent.description}"></textarea></label>
+      <div class="wide inline"><button class="primary" type="submit">保存设置</button></div>
+    </form>
+  </article>
+
+  <div class="two-column">
+    <article class="card">
+      <h2>触发规则</h2>
+      <p class="muted">精确、包含关键词，或用正则识别用户输入。</p>
+      <form class="stack add-box" th:action="@{/manage/intents/{id}/triggers(id=${intent.id})}" method="post">
+        <div class="inline-fields">
+          <label><span>类型</span><select name="matchType"><option th:each="type : ${matchTypes}" th:value="${type}" th:text="${type}"></option></select></label>
+          <label><span>权重</span><input name="weight" type="number" min="0.001" max="1.000" step="0.001" value="1.000"></label>
+        </div>
+        <label><span>匹配内容</span><input name="pattern" maxlength="500" required></label>
+        <button type="submit">添加规则</button>
+      </form>
+      <div class="empty" th:if="${#lists.isEmpty(triggers)}">还没有触发规则。</div>
+      <form class="item-editor" th:each="trigger : ${triggers}" th:action="@{/manage/intents/{intentId}/triggers/{id}(intentId=${intent.id},id=${trigger.id})}" method="post">
+        <div class="inline-fields">
+          <select name="matchType"><option th:each="type : ${matchTypes}" th:value="${type}" th:text="${type}" th:selected="${type == trigger.matchType}"></option></select>
+          <input name="weight" type="number" min="0.001" max="1.000" step="0.001" th:value="${trigger.weight}">
+        </div>
+        <input name="pattern" th:value="${trigger.pattern}" maxlength="500" required>
+        <div class="inline">
+          <label class="checkbox"><input name="enabled" type="checkbox" value="true" th:checked="${trigger.enabled}"><span>启用</span></label>
+          <button type="submit">保存</button>
+          <button class="danger-button" type="submit" th:formaction="@{/manage/intents/{intentId}/triggers/{id}/delete(intentId=${intent.id},id=${trigger.id})}" data-confirm="确定删除这条触发规则？">删除</button>
+        </div>
+      </form>
+    </article>
+
+    <article class="card">
+      <h2>预制回答</h2>
+      <p class="muted">权重越大，被随机选中的机会越高。</p>
+      <form class="stack add-box" th:action="@{/manage/intents/{id}/replies(id=${intent.id})}" method="post">
+        <label><span>回答内容</span><textarea name="content" required></textarea></label>
+        <label><span>权重</span><input name="weight" type="number" min="1" max="100" value="1"></label>
+        <button type="submit">添加回答</button>
+      </form>
+      <div class="empty" th:if="${#lists.isEmpty(replies)}">还没有预制回答。</div>
+      <form class="item-editor" th:each="reply : ${replies}" th:action="@{/manage/intents/{intentId}/replies/{id}(intentId=${intent.id},id=${reply.id})}" method="post">
+        <textarea name="content" required th:text="${reply.content}"></textarea>
+        <div class="inline-fields reply-fields">
+          <label><span>权重</span><input name="weight" type="number" min="1" max="100" th:value="${reply.weight}"></label>
+          <label class="checkbox"><input name="enabled" type="checkbox" value="true" th:checked="${reply.enabled}"><span>启用</span></label>
+        </div>
+        <div class="inline"><button type="submit">保存</button><button class="danger-button" type="submit" th:formaction="@{/manage/intents/{intentId}/replies/{id}/delete(intentId=${intent.id},id=${reply.id})}" data-confirm="确定删除这条回答？">删除</button></div>
+      </form>
+    </article>
+  </div>
+
+  <form class="delete-zone" th:action="@{/manage/intents/{id}/delete(id=${intent.id})}" method="post">
+    <div><strong>删除这个意图</strong><p class="muted">其触发规则和回答也会一并删除，此操作不可撤销。</p></div>
+    <button class="danger-button" type="submit" data-confirm="确定删除整个意图？">删除意图</button>
+  </form>
+  <script>
+    document.addEventListener('click', function (event) {
+      const button = event.target.closest('[data-confirm]');
+      if (button && !window.confirm(button.dataset.confirm)) event.preventDefault();
+    });
+  </script>
+</section>
+</html>

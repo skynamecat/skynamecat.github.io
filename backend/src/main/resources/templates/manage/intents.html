@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{manage/layout :: layout('意图与回答', 'intents', ~{::section})}">
+<section>
+  <header class="page-header">
+    <div><p class="eyebrow">PRESET KNOWLEDGE</p><h1>意图与回答</h1><p class="muted">一个意图可以有多条触发规则和多个随机回答。</p></div>
+  </header>
+  <div class="notice danger" th:if="${error}" th:text="${error}"></div>
+  <div class="notice success" th:if="${success}" th:text="${success}"></div>
+
+  <details class="card create-panel">
+    <summary>＋ 新建意图</summary>
+    <form class="form-grid" th:action="@{/manage/intents}" method="post">
+      <label><span>代码</span><input name="code" placeholder="about.me" maxlength="64" required></label>
+      <label><span>名称</span><input name="name" placeholder="关于我" maxlength="120" required></label>
+      <label><span>优先级</span><input name="priority" type="number" value="0"></label>
+      <label class="wide"><span>说明</span><textarea name="description" maxlength="500" placeholder="这个意图用来回答什么"></textarea></label>
+      <div class="wide"><button class="primary" type="submit">创建并配置</button></div>
+    </form>
+  </details>
+
+  <div class="table-wrap">
+    <div class="empty" th:if="${#lists.isEmpty(intents)}">还没有意图，先创建一个吧。</div>
+    <table th:unless="${#lists.isEmpty(intents)}">
+      <thead><tr><th>意图</th><th>优先级</th><th>规则</th><th>回答</th><th>状态</th><th></th></tr></thead>
+      <tbody><tr th:each="intent : ${intents}">
+        <td><strong th:text="${intent.name}">名称</strong><br><code th:text="${intent.code}">code</code></td>
+        <td th:text="${intent.priority}">0</td>
+        <td th:text="${intent.triggerCount}">0</td>
+        <td th:text="${intent.replyCount}">0</td>
+        <td><span class="pill" th:classappend="${!intent.enabled} ? ' off'" th:text="${intent.enabled ? '启用' : '停用'}">启用</span></td>
+        <td><a class="button" th:href="@{/manage/intents/{id}(id=${intent.id})}">配置</a></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+</html>

@@ -1,100 +1,65 @@
-# vinext-starter
+# skynamecat 个人站
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+这是 skynamecat 的长期维护单仓库：极简/标准双模式前台、庞菠菠 3D 数字宠物、Spring Boot 对话服务与管理后台。
 
-## Prerequisites
+## 目录
 
-- Node.js `>=22.13.0`
+```text
+frontend/                 Next.js 静态前台
+  app/                    页面与交互组件
+  public/pangbobo/        线上使用的模型、贴图与精灵图
+  tests/                  前端构建产物测试
+backend/                  Spring Boot + PostgreSQL
+  src/main/java/          API、对话规则、管理后台、请求追踪
+  src/main/resources/     Thymeleaf 页面与 Flyway 数据库迁移
+deploy/                   服务端发布、Nginx 和环境变量示例
+assets/source/pangbobo-reference/
+                          不直接上线的庞菠菠原始参考图、多视图素材
+tools/pangbobo/           Blender/模型转换与动作制作脚本
+docs/                     架构与维护文档
+```
 
-## Quick Start
+## 本地运行
 
-```bash
-npm install
+前端：
+
+```powershell
+cd frontend
+npm ci
 npm run dev
-npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+后端使用 Java 21；本机 JDK 优先从 `C:\Users\skynamecat\.jdks` 查找：
 
-## Included Shape
-
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Email and name are intended for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```powershell
+$env:JAVA_HOME='C:\Users\skynamecat\.jdks\corretto-21.0.7'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+cd backend
+mvn spring-boot:run
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+数据库和管理员账号通过环境变量配置，参见 `deploy/backend.env.example`，不要把密码提交到 Git。
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+## 验证
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+```powershell
+cd frontend
+npm test
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+cd ..\backend
+mvn test package
+```
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+## 线上结构
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+- `/`：Nginx 直接提供 `frontend/out` 静态文件。
+- `/api/`：反向代理到 Spring Boot。
+- `/manage/`：对话和运行管理后台。
+- `/manage/requests`：最近 200 次 API/后台用户操作；每次请求带 `X-Request-Id`，聊天请求可继续查看用户问题、回答、命中意图和置信度。
 
-## Useful Commands
+请求日志不保存 Cookie、密码、授权信息或 URL 查询参数，只记录链路编号、会话编号、方法、路径、状态、耗时、来源 IP、浏览器标识和时间。
 
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+## 发布
 
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+- GitHub Pages：推送 `snc-master` 后由 `.github/workflows/deploy-pages.yml` 构建 `frontend/`。
+- 自有服务器：后端执行 `deploy/deploy-backend.sh`；前端使用 `deploy/deploy-frontend.ps1`。

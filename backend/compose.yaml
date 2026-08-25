@@ -1,0 +1,42 @@
+name: testproject
+
+services:
+  backend:
+    container_name: testproject-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: unless-stopped
+    env_file:
+      - /etc/testproject/backend.env
+    environment:
+      # Host networking is required because PostgreSQL only listens on the host
+      # loopback interface. Keep the application private to the same host.
+      SERVER_ADDRESS: 127.0.0.1
+      SERVER_PORT: 8080
+      SERVER_FORWARD_HEADERS_STRATEGY: framework
+      JAVA_TOOL_OPTIONS: >-
+        -XX:MaxRAMPercentage=60.0
+        -XX:InitialRAMPercentage=20.0
+        -Djava.security.egd=file:/dev/urandom
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 640m
+    cpus: 1.5
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "http://127.0.0.1:8080/actuator/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"

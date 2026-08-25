@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{manage/layout :: layout('概览', 'dashboard', ~{::section})}">
+<section>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">DIALOGUE OVERVIEW</p>
+      <h1>庞菠菠今天知道什么？</h1>
+      <p class="muted">在这里维护预制对话，前台无需重新发布就会读取最新规则。</p>
+    </div>
+    <a class="button primary" th:href="@{/manage/intents}">管理意图</a>
+  </header>
+
+  <div class="grid">
+    <article class="card"><p class="muted">意图</p><div class="metric" th:text="${intentCount}">0</div></article>
+    <article class="card"><p class="muted">触发规则</p><div class="metric" th:text="${triggerCount}">0</div></article>
+    <article class="card"><p class="muted">预制回答</p><div class="metric" th:text="${replyCount}">0</div></article>
+  </div>
+
+  <article class="card section-card">
+    <div class="page-header compact">
+      <div><h2>需要补充的问题</h2><p class="muted"><span th:text="${unresolvedCount}">0</span> 个问题尚未处理</p></div>
+      <a class="button" th:href="@{/manage/unmatched}">查看全部</a>
+    </div>
+    <div class="empty" th:if="${#lists.isEmpty(recentUnmatched)}">暂时没有未命中问题。</div>
+    <div class="question-list" th:unless="${#lists.isEmpty(recentUnmatched)}">
+      <div class="question-row" th:each="item : ${recentUnmatched}">
+        <span th:text="${item.content}">问题</span><strong th:text="${item.occurrences + ' 次'}">1 次</strong>
+      </div>
+    </div>
+  </article>
+</section>
+</html>

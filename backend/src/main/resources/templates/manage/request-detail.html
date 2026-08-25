@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{manage/layout :: layout('请求详情', 'requests', ~{::section})}">
+<section>
+  <header class="page-header"><div><p class="eyebrow">TRACE DETAIL</p><h1>请求链路详情</h1><p class="muted"><code th:text="${request.id}">request-id</code></p></div><a class="button" th:href="@{/manage/requests}">返回列表</a></header>
+  <div class="stats trace-stats">
+    <article><span>请求</span><strong th:text="${request.method + ' ' + request.path}">POST /api/v1/chat</strong></article>
+    <article><span>状态 / 耗时</span><strong th:text="${request.statusCode + ' · ' + request.durationMs + ' ms'}">200 · 10 ms</strong></article>
+    <article><span>来源</span><strong th:text="${(request.actor ?: '访客') + ' · ' + (request.clientIp ?: '-')}">访客</strong></article>
+  </div>
+  <div class="card">
+    <h2>对话消息</h2>
+    <div class="empty" th:if="${#lists.isEmpty(messages)}">这次操作没有关联对话消息。</div>
+    <article class="trace-message" th:each="message : ${messages}">
+      <div><strong th:text="${message.role.name() == 'USER' ? '用户' : '庞菠菠'}">用户</strong><span th:text="${message.createdAt}">时间</span></div>
+      <p th:text="${message.content}">消息内容</p>
+      <small th:if="${message.intentCode}" th:text="${'意图：' + message.intentCode + ' · 提供方：' + message.provider + ' · 置信度：' + message.confidence}">匹配信息</small>
+    </article>
+  </div>
+</section>
+</html>
