@@ -13,6 +13,7 @@ def args():
     parser.add_argument("--daily", required=True)
     parser.add_argument("--hiphop", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--blend-output")
     return parser.parse_args(values)
 
 
@@ -57,6 +58,13 @@ def main():
     for image in bpy.data.images:
         if image.size[0] > 1024 or image.size[1] > 1024:
             image.scale(1024, 1024)
+
+    if options.blend_output:
+        blend_output = Path(options.blend_output).resolve()
+        blend_output.parent.mkdir(parents=True, exist_ok=True)
+        bpy.ops.outliner.orphans_purge(do_recursive=True)
+        bpy.ops.wm.save_as_mainfile(filepath=str(blend_output))
+        print(f"[master] {blend_output}")
 
     output = Path(options.output).resolve()
     output.parent.mkdir(parents=True, exist_ok=True)

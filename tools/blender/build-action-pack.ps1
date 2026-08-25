@@ -6,5 +6,6 @@ $output = Join-Path $workspace "frontend\public\pangbobo\pangbobo-actions-comple
   --model "C:\Users\skynamecat\Documents\ChatGPT\庞菠菠.fbx" `
   --daily (Join-Path $workspace "frontend\public\pangbobo\pangbobo-actions-lite.glb") `
   --hiphop (Join-Path $source "pangbobo-hiphop.glb") `
+  --blend-output "C:\Users\skynamecat\Documents\ChatGPT\pangbobo-source\pangbobo-actions-master.blend" `
   --output $output
 if ($LASTEXITCODE -ne 0) { throw "Action pack build failed with exit code $LASTEXITCODE" }

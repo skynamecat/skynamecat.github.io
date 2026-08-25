@@ -25,6 +25,8 @@
 
 输出 `frontend/public/pangbobo/pangbobo-actions-complete.glb`，包含统一 28 骨骨架上的 24 个日常与舞蹈片段。构建会检查动作名称，缺少任何标准片段都会失败。
 
+可编辑母版保存在仓库外的 `C:\Users\skynamecat\Documents\ChatGPT\pangbobo-source\pangbobo-actions-master.blend`，避免大型 Blender 文件进入 Git。
+
 ```powershell
 .\tools\blender\validate-action-pack.ps1
 ```
