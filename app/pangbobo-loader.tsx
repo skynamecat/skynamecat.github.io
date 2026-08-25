@@ -15,8 +15,20 @@ type NetworkInformation = {
 
 export function PangboboLoader() {
   const [ready, setReady] = useState(false);
+  const [minimal, setMinimal] = useState(false);
 
   useEffect(() => {
+    const syncMode = () => setMinimal(document.documentElement.dataset.displayMode === "minimal");
+    syncMode();
+    window.addEventListener("sky-display-mode-change", syncMode);
+    return () => window.removeEventListener("sky-display-mode-change", syncMode);
+  }, []);
+
+  useEffect(() => {
+    if (minimal) {
+      setReady(false);
+      return;
+    }
     const connection = (navigator as Navigator & { connection?: NetworkInformation }).connection;
     const needsMoreTime = connection?.saveData
       || ["slow-2g", "2g", "3g"].includes(connection?.effectiveType ?? "");
@@ -30,7 +42,7 @@ export function PangboboLoader() {
 
     const timer = globalThis.setTimeout(() => setReady(true), needsMoreTime ? 1400 : 350);
     return () => globalThis.clearTimeout(timer);
-  }, []);
+  }, [minimal]);
 
-  return ready ? <PangboboPet /> : null;
+  return ready && !minimal ? <PangboboPet /> : null;
 }
