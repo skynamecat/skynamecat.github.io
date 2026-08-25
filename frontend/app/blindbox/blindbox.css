@@ -1,0 +1,532 @@
+.blindbox-page {
+  --bb-ink: #3b2c25;
+  --bb-muted: #806f64;
+  --bb-paper: #f6efe3;
+  --bb-coral: #ee785d;
+  --bb-lemon: #f3c96b;
+  --bb-line: rgba(72, 50, 38, .18);
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(260px, .78fr) minmax(430px, 1.22fr);
+  grid-template-rows: auto 1fr auto;
+  gap: 0 clamp(34px, 5vw, 92px);
+  padding: 28px clamp(22px, 4vw, 72px) 32px;
+  color: var(--bb-ink);
+  color-scheme: light;
+  background:
+    radial-gradient(circle at 73% 42%, rgba(255, 255, 255, .78) 0 14%, transparent 43%),
+    linear-gradient(112deg, #f8f1e8 0 43%, #eddfd1 43% 100%);
+  font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+  isolation: isolate;
+}
+
+.blindbox-theme-hiphop {
+  --bb-paper: #efe9df;
+  --bb-coral: #e75c48;
+  --bb-lemon: #ecc34f;
+  background:
+    radial-gradient(circle at 74% 38%, rgba(255, 250, 226, .72) 0 12%, transparent 40%),
+    linear-gradient(112deg, #f4eee7 0 43%, #ddddd8 43% 100%);
+}
+
+.blindbox-page button,
+.blindbox-page a { -webkit-tap-highlight-color: transparent; }
+
+.blindbox-grain {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(70, 49, 35, .24) 0 .5px, transparent .7px),
+    radial-gradient(circle at 80% 55%, rgba(255, 255, 255, .72) 0 .6px, transparent .8px);
+  background-size: 9px 11px, 13px 15px;
+  mix-blend-mode: multiply;
+}
+
+.blindbox-header {
+  grid-column: 1 / -1;
+  min-height: 48px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--bb-line);
+}
+
+.blindbox-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 3px 0 15px;
+  color: var(--bb-ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.blindbox-home-link span { transition: transform .2s ease; }
+.blindbox-home-link:hover span { transform: translateX(-3px); }
+
+.blindbox-source {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 4px;
+  color: var(--bb-muted);
+  font: 10px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .08em;
+}
+
+.blindbox-source i {
+  width: 7px;
+  height: 7px;
+  background: #6b9a72;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(107, 154, 114, .12);
+}
+.blindbox-source i.is-fallback { background: #c79659; box-shadow: 0 0 0 4px rgba(199, 150, 89, .13); }
+
+.blindbox-intro {
+  align-self: center;
+  max-width: 490px;
+  padding: clamp(52px, 8vh, 100px) 0 52px;
+  animation: blindbox-rise .72s both cubic-bezier(.22, 1, .36, 1);
+}
+
+.blindbox-kicker {
+  margin: 0 0 23px;
+  color: var(--bb-coral);
+  font: 700 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .2em;
+}
+
+.blindbox-intro h1 {
+  margin: 0;
+  font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+  font-size: clamp(58px, 7vw, 108px);
+  font-weight: 700;
+  line-height: .93;
+  letter-spacing: -.075em;
+}
+
+.blindbox-intro h1 em {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--bb-ink);
+  font-style: normal;
+}
+
+.blindbox-lead {
+  margin: clamp(28px, 5vh, 52px) 0 0;
+  color: var(--bb-muted);
+  font-size: 14px;
+  line-height: 1.9;
+  letter-spacing: .035em;
+}
+
+.blindbox-series-tabs {
+  margin-top: 42px;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.blindbox-series-tabs button {
+  min-width: 128px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 8px;
+  color: var(--bb-muted);
+  background: transparent;
+  border: 1px solid var(--bb-line);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+  transition: color .2s, background .2s, transform .2s;
+}
+.blindbox-series-tabs button span { font: 9px/1 ui-monospace, monospace; opacity: .56; }
+.blindbox-series-tabs button:hover { color: var(--bb-ink); transform: translateY(-2px); }
+.blindbox-series-tabs button.is-active { color: #fff9ef; background: var(--bb-ink); border-color: var(--bb-ink); }
+
+.blindbox-stage-card {
+  position: relative;
+  align-self: stretch;
+  min-height: min(670px, calc(100svh - 150px));
+  margin: 24px 0;
+  overflow: hidden;
+  background: rgba(255, 249, 239, .4);
+  border: 1px solid rgba(255, 255, 255, .58);
+  border-radius: 44% 44% 18px 18px / 24% 24% 18px 18px;
+  box-shadow: inset 0 0 0 1px rgba(70, 49, 35, .06), 0 24px 80px rgba(99, 67, 48, .08);
+  animation: blindbox-stage-in .9s .08s both cubic-bezier(.22, 1, .36, 1);
+}
+
+.blindbox-stage-card::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  pointer-events: none;
+  border: 1px dashed rgba(80, 55, 40, .12);
+  border-radius: inherit;
+}
+
+.blindbox-box-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+}
+
+.blindbox-paper-box {
+  position: relative;
+  width: clamp(170px, 20vw, 250px);
+  aspect-ratio: .86;
+  transform-style: preserve-3d;
+  transform: rotateX(-7deg) rotateY(-24deg) translateY(-36px);
+  animation: blindbox-float 3.8s ease-in-out infinite;
+}
+
+.box-face,
+.box-side,
+.box-lid {
+  position: absolute;
+  display: block;
+  background: #ed815f;
+  border: 1px solid rgba(77, 47, 33, .15);
+  box-shadow: inset 0 0 32px rgba(255, 231, 188, .18);
+}
+
+.box-face {
+  inset: 20% 6% 0 0;
+  display: grid;
+  place-items: center;
+  transform: translateZ(42px);
+  clip-path: polygon(3% 7%, 96% 0, 100% 96%, 0 100%);
+}
+.box-face::before {
+  content: "";
+  position: absolute;
+  width: 66%;
+  height: 72%;
+  background: #f7ddaa;
+  border: 1px solid rgba(80, 46, 30, .16);
+  border-radius: 48% 48% 7px 7px;
+}
+.box-face span {
+  position: relative;
+  color: #4a3428;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: clamp(23px, 2.5vw, 34px);
+  font-weight: 700;
+  line-height: .86;
+  text-align: center;
+}
+.box-side {
+  top: 20%;
+  right: -24%;
+  width: 30%;
+  height: 78%;
+  background: #c85d48;
+  transform: rotateY(68deg) translateZ(20px);
+  transform-origin: left center;
+}
+.box-lid {
+  top: 8%;
+  left: -3%;
+  width: 108%;
+  height: 25%;
+  background: #f19a70;
+  transform: rotateX(64deg) translateZ(37px);
+  transform-origin: bottom center;
+  clip-path: polygon(6% 0, 96% 7%, 100% 79%, 1% 100%);
+  transition: transform .65s cubic-bezier(.22, 1, .36, 1);
+}
+.box-shadow {
+  position: absolute;
+  left: 3%;
+  right: -8%;
+  bottom: -16%;
+  height: 15%;
+  background: rgba(87, 55, 37, .2);
+  border-radius: 50%;
+  filter: blur(13px);
+  transform: rotateX(75deg);
+}
+.is-opening .box-lid { transform: rotateX(-105deg) translateY(-62px) translateZ(32px); }
+.is-opening .blindbox-paper-box { animation: blindbox-shake .5s both, blindbox-float 3.8s .5s ease-in-out infinite; }
+
+.blindbox-stage-copy {
+  position: absolute;
+  right: clamp(28px, 5vw, 72px);
+  bottom: clamp(30px, 6vh, 62px);
+  left: clamp(28px, 5vw, 72px);
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.blindbox-stage-copy p { margin: 0 0 4px; color: var(--bb-muted); font-size: 12px; }
+.blindbox-stage-copy button {
+  width: min(250px, 100%);
+  padding: 15px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fffaf1;
+  background: var(--bb-ink);
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  font: 700 13px/1 "Avenir Next", sans-serif;
+  letter-spacing: .12em;
+  transition: transform .2s, box-shadow .2s;
+}
+.blindbox-stage-copy button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(59, 44, 37, .16); }
+.blindbox-stage-copy button:disabled { cursor: wait; opacity: .72; }
+.blindbox-stage-copy button i { color: var(--bb-lemon); font-style: normal; font-size: 17px; }
+.blindbox-stage-copy small { color: var(--bb-muted); font-size: 9px; letter-spacing: .08em; }
+
+.blindbox-reveal {
+  min-height: inherit;
+  display: grid;
+  grid-template-rows: minmax(360px, 1fr) auto;
+}
+.blindbox-model-shell { position: relative; min-height: 0; overflow: hidden; }
+.blindbox-model-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: 7%;
+  width: 52%;
+  height: 9%;
+  background: rgba(70, 46, 34, .14);
+  border-radius: 50%;
+  filter: blur(16px);
+  transform: translateX(-50%);
+}
+.blindbox-viewer,
+.blindbox-viewer-skeleton { position: absolute; z-index: 1; inset: 0; min-height: 360px; }
+.blindbox-viewer-skeleton { display: grid; place-items: center; color: var(--bb-muted); font-size: 12px; }
+.blindbox-model-canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+.blindbox-model-canvas:active { cursor: grabbing; }
+.blindbox-viewer-status {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 19px;
+  margin: 0;
+  padding: 7px 12px;
+  color: var(--bb-muted);
+  background: rgba(255, 250, 241, .72);
+  border: 1px solid rgba(75, 52, 39, .1);
+  border-radius: 99px;
+  backdrop-filter: blur(10px);
+  font-size: 9px;
+  letter-spacing: .04em;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.blindbox-rarity {
+  position: absolute;
+  z-index: 3;
+  top: 40px;
+  right: 38px;
+  padding: 8px 11px;
+  color: var(--bb-ink);
+  background: #f6dfab;
+  border: 1px solid rgba(67, 46, 32, .13);
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+.rarity-rare { background: #d9c8eb; }
+.rarity-epic { color: #fff8e9; background: #9d5145; }
+
+.blindbox-reveal-copy {
+  position: relative;
+  z-index: 2;
+  padding: 25px clamp(28px, 5vw, 64px) 34px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 26px;
+  background: rgba(250, 242, 228, .86);
+  border-top: 1px solid var(--bb-line);
+  backdrop-filter: blur(16px);
+}
+.blindbox-reveal-index {
+  grid-row: 1 / 4;
+  margin: 5px 0 0;
+  color: var(--bb-coral);
+  font: 700 32px/1 ui-monospace, monospace;
+}
+.blindbox-reveal-index span { display: block; margin-top: 7px; color: var(--bb-muted); font-size: 10px; }
+.blindbox-reveal-copy h2 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(28px, 3vw, 42px); }
+.blindbox-reveal-copy > p:not(.blindbox-reveal-index) { margin: 2px 0 0; color: var(--bb-muted); font-size: 12px; line-height: 1.7; }
+.blindbox-actions { margin-top: 12px; display: flex; gap: 8px; }
+.blindbox-actions button {
+  padding: 9px 13px;
+  color: var(--bb-ink);
+  background: transparent;
+  border: 1px solid var(--bb-line);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+.blindbox-actions button:first-child { color: #fff8ed; background: var(--bb-ink); border-color: var(--bb-ink); }
+
+.blindbox-progress {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto minmax(180px, 1fr);
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid var(--bb-line);
+}
+.blindbox-progress button {
+  padding: 16px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--bb-muted);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.blindbox-progress button:disabled { cursor: wait; }
+.blindbox-progress button span { font: 9px/1 ui-monospace, monospace; letter-spacing: .16em; }
+.blindbox-progress button strong { color: var(--bb-ink); font: 700 14px/1 ui-monospace, monospace; }
+.blindbox-progress > div { height: 2px; margin-top: 16px; overflow: hidden; background: rgba(70, 48, 35, .12); }
+.blindbox-progress > div i { display: block; height: 100%; background: var(--bb-coral); transition: width .5s cubic-bezier(.22, 1, .36, 1); }
+
+.blindbox-collection-backdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  padding: clamp(16px, 4vw, 56px);
+  display: grid;
+  place-items: center;
+  background: rgba(45, 33, 27, .54);
+  backdrop-filter: blur(14px);
+  animation: blindbox-fade .25s both;
+}
+.blindbox-collection-dismiss {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: default;
+}
+.blindbox-collection {
+  position: relative;
+  z-index: 1;
+  width: min(860px, 100%);
+  max-height: min(760px, calc(100svh - 32px));
+  overflow: auto;
+  padding: clamp(24px, 4vw, 48px);
+  color: var(--bb-ink);
+  background: #f6efe3;
+  border-radius: 4px 42px 4px 4px;
+  box-shadow: 0 28px 90px rgba(30, 20, 15, .28);
+  animation: blindbox-collection-in .45s both cubic-bezier(.22, 1, .36, 1);
+}
+.blindbox-collection > header { display: flex; justify-content: space-between; gap: 24px; }
+.blindbox-collection > header p { margin: 0 0 8px; color: var(--bb-coral); font: 700 9px/1 ui-monospace, monospace; letter-spacing: .18em; }
+.blindbox-collection > header h2 { margin: 0; font-family: "Songti SC", serif; font-size: clamp(26px, 4vw, 45px); }
+.blindbox-collection > header button {
+  width: 40px;
+  height: 40px;
+  color: var(--bb-ink);
+  background: transparent;
+  border: 1px solid var(--bb-line);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+}
+.blindbox-collection-grid { margin-top: 34px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.blindbox-collection-grid button {
+  min-height: 145px;
+  padding: 15px;
+  display: grid;
+  align-content: space-between;
+  justify-items: start;
+  color: rgba(59, 44, 37, .38);
+  background: rgba(70, 48, 35, .035);
+  border: 1px dashed rgba(70, 48, 35, .15);
+  border-radius: 2px 18px 2px 2px;
+  text-align: left;
+}
+.blindbox-collection-grid button.is-unlocked { color: var(--bb-ink); background: #fbf5eb; border-style: solid; cursor: pointer; }
+.blindbox-collection-grid button > span { font: 9px/1 ui-monospace, monospace; }
+.blindbox-collection-grid button i { justify-self: center; font-style: normal; font-size: 28px; }
+.blindbox-collection-grid button strong { font-size: 12px; }
+
+.blindbox-page button:focus-visible,
+.blindbox-page a:focus-visible { outline: 2px solid var(--bb-coral); outline-offset: 3px; }
+
+@keyframes blindbox-rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes blindbox-stage-in { from { opacity: 0; transform: translateY(32px) scale(.98); } }
+@keyframes blindbox-float { 50% { transform: rotateX(-7deg) rotateY(-20deg) translateY(-48px); } }
+@keyframes blindbox-shake {
+  20% { transform: rotateX(-7deg) rotateY(-24deg) translate(-7px, -36px) rotateZ(-2deg); }
+  40% { transform: rotateX(-7deg) rotateY(-24deg) translate(7px, -36px) rotateZ(2deg); }
+  60% { transform: rotateX(-7deg) rotateY(-24deg) translate(-5px, -36px) rotateZ(-1deg); }
+  80% { transform: rotateX(-7deg) rotateY(-24deg) translate(4px, -36px) rotateZ(1deg); }
+}
+@keyframes blindbox-fade { from { opacity: 0; } }
+@keyframes blindbox-collection-in { from { opacity: 0; transform: translateY(24px) scale(.97); } }
+
+@media (max-width: 900px) {
+  .blindbox-page {
+    min-height: auto;
+    overflow: visible;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    background: linear-gradient(180deg, #f8f1e8 0 37%, #eddfd1 37% 100%);
+  }
+  .blindbox-header, .blindbox-progress { grid-column: 1; }
+  .blindbox-intro { max-width: none; padding: 54px 0 38px; }
+  .blindbox-intro h1 { font-size: clamp(56px, 16vw, 90px); }
+  .blindbox-lead { margin-top: 26px; }
+  .blindbox-series-tabs { margin-top: 30px; }
+  .blindbox-stage-card { min-height: 650px; margin: 8px 0 32px; }
+}
+
+@media (max-width: 560px) {
+  .blindbox-page { padding: 18px 14px 22px; }
+  .blindbox-source { font-size: 8px; }
+  .blindbox-series-tabs { gap: 5px; }
+  .blindbox-series-tabs button { min-width: 0; flex: 1; padding-inline: 9px; font-size: 10px; }
+  .blindbox-stage-card { min-height: 590px; border-radius: 120px 120px 12px 12px / 90px 90px 12px 12px; }
+  .blindbox-paper-box { width: 180px; }
+  .blindbox-stage-copy { right: 24px; left: 24px; bottom: 34px; }
+  .blindbox-reveal { grid-template-rows: minmax(350px, 1fr) auto; }
+  .blindbox-reveal-copy { grid-template-columns: 1fr; gap: 7px; padding: 20px 24px 26px; }
+  .blindbox-reveal-index { grid-row: auto; font-size: 19px; }
+  .blindbox-reveal-index span { display: inline; margin-left: 3px; }
+  .blindbox-actions { margin-top: 8px; }
+  .blindbox-progress { grid-template-columns: 1fr; gap: 0; }
+  .blindbox-progress > div { margin-top: 8px; }
+  .blindbox-collection-backdrop { padding: 10px; }
+  .blindbox-collection { max-height: calc(100svh - 20px); padding: 25px 16px; border-radius: 3px 25px 3px 3px; }
+  .blindbox-collection-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .blindbox-collection-grid button { min-height: 115px; padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blindbox-page *,
+  .blindbox-page *::before,
+  .blindbox-page *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

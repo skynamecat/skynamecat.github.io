@@ -22,3 +22,13 @@ test("exports the custom 404 page", async () => {
   assert.match(html, /回到安静的地方/);
   assert.doesNotMatch(html, /这里暂时没有留下足迹/);
 });
+
+test("exports the blindbox as a lightweight static entry", async () => {
+  const html = await readFile(new URL("blindbox/index.html", outputRoot), "utf8");
+
+  assert.match(html, /庞菠菠今日盲盒/);
+  assert.match(html, /3D 模型会在开启后按设备性能加载/);
+  assert.doesNotMatch(html, /pangbobo-actions-balanced\.glb/);
+  await access(new URL("pangbobo/pangbobo-actions-lite.glb", outputRoot));
+  await access(new URL("pangbobo/pangbobo-hiphop.glb", outputRoot));
+});

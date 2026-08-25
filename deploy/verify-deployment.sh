@@ -14,5 +14,7 @@ check() {
 check "Spring health" "http://127.0.0.1:8080/actuator/health"
 check "Static homepage" "${PUBLIC_ORIGIN}/"
 check "Management page" "${PUBLIC_ORIGIN}/manage/"
+check "Management SPA" "${PUBLIC_ORIGIN}/manage-app/"
+check "Blindbox page" "${PUBLIC_ORIGIN}/blindbox/"
 
 echo "API route (a POST endpoint) is intentionally not invoked by this smoke test."

@@ -19,6 +19,17 @@ server {
         add_header Cache-Control "no-cache" always;
     }
 
+    # Public blind-box experience is part of the exported Next.js site. Keep a
+    # canonical trailing slash and never let a missing file fall into /manage.
+    location = /blindbox {
+        return 308 /blindbox/;
+    }
+
+    location ^~ /blindbox/ {
+        try_files $uri $uri/ /blindbox/index.html;
+        add_header Cache-Control "no-cache" always;
+    }
+
     # Canonical management URL. Spring receives the /manage prefix unchanged.
     location = /manage {
         return 308 /manage/;
