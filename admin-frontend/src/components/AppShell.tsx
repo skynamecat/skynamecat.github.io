@@ -24,7 +24,7 @@ type Props = {
 export function AppShell({ route, onNavigate, status, busy, children }: Props) {
   return <div className="admin-shell">
     <aside className="sidebar">
-      <button className="brand" onClick={() => onNavigate("overview")}><span>庞</span><div><strong>庞菠菠</strong><small>UNIFIED CONSOLE</small></div></button>
+      <button className="brand" onClick={() => onNavigate("overview")}><span>S</span><div><strong>skynamecat</strong><small>ADMIN CONSOLE</small></div></button>
       <nav aria-label="管理模块">
         {nav.map((item) => <button key={item.key} className={route === item.key ? "active" : ""} onClick={() => onNavigate(item.key)} aria-current={route === item.key ? "page" : undefined}>
           <i>{item.index}</i><span><b>{item.label}</b><small>{item.hint}</small></span>

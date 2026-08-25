@@ -7,7 +7,7 @@ export function OverviewView({ report }: { report: (message: string, busy?: bool
   const [data, setData] = useState<DialogueOverview | null>(null);
   useEffect(() => { let active = true; dialogueApi.overview().then((value) => { if (active) setData(value); }).catch((error) => report(error instanceof Error ? error.message : "概览加载失败")); return () => { active = false; }; }, [report]);
   return <>
-    <header className="topbar"><div><p>UNIFIED OVERVIEW</p><h1>一个入口，管理庞菠菠的全部能力。</h1></div></header>
+    <header className="topbar"><div><p>UNIFIED OVERVIEW</p><h1>一个入口，管理整个站点。</h1></div></header>
     {!data ? <div className="route-loading">正在汇总后台数据…</div> : <>
       <section className="unified-metrics">
         <article><span>意图</span><b>{data.intentCount}</b><small>对话识别单元</small></article>

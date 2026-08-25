@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title th:text="${title + ' · 庞菠菠管理台'}">庞菠菠管理台</title>
+  <title th:text="${title + ' · skynamecat 管理台'}">skynamecat 管理台</title>
   <link rel="stylesheet" th:href="@{/manage/assets/manage.css}">
   <script defer src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
 </head>
@@ -12,8 +12,8 @@
   <div class="app-shell">
     <aside class="sidebar">
       <a class="brand" th:href="@{/manage}">
-        <span class="brand-mark">P</span>
-        <span><strong>庞菠菠</strong><small>对话管理台</small></span>
+        <span class="brand-mark">S</span>
+        <span><strong>skynamecat</strong><small>站点管理台</small></span>
       </a>
       <nav>
         <a th:href="@{/manage}" th:classappend="${active == 'dashboard'} ? ' active'">概览</a>
