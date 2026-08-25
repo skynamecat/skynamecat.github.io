@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import type { RouteKey } from "./types";
 
 const routePath: Record<RouteKey, string> = {
-  studio: "/manage-app/",
+  overview: "/manage-app/",
+  intents: "/manage-app/intents",
+  unmatched: "/manage-app/unmatched",
+  requests: "/manage-app/requests",
+  studio: "/manage-app/blindbox",
   models: "/manage-app/models",
   assets: "/manage-app/assets",
   motions: "/manage-app/motions",
@@ -11,11 +15,15 @@ const routePath: Record<RouteKey, string> = {
 
 function readRoute(): RouteKey {
   const path = window.location.pathname.replace(/\/+$/, "");
+  if (path.endsWith("/intents")) return "intents";
+  if (path.endsWith("/unmatched")) return "unmatched";
+  if (path.endsWith("/requests")) return "requests";
+  if (path.endsWith("/blindbox")) return "studio";
   if (path.endsWith("/models")) return "models";
   if (path.endsWith("/assets")) return "assets";
   if (path.endsWith("/motions")) return "motions";
   if (path.endsWith("/releases")) return "releases";
-  return "studio";
+  return "overview";
 }
 
 export function useAdminRouter() {

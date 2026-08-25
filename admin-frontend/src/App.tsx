@@ -5,6 +5,10 @@ import { useAdminRouter } from "./router";
 import type { AnimationQa, Asset, Release, Series } from "./types";
 
 const StudioView = lazy(() => import("./views/StudioView").then((module) => ({ default: module.StudioView })));
+const OverviewView = lazy(() => import("./views/OverviewView").then((module) => ({ default: module.OverviewView })));
+const DialogueView = lazy(() => import("./views/DialogueView").then((module) => ({ default: module.DialogueView })));
+const UnmatchedView = lazy(() => import("./views/UnmatchedView").then((module) => ({ default: module.UnmatchedView })));
+const RequestsView = lazy(() => import("./views/RequestsView").then((module) => ({ default: module.RequestsView })));
 const ModelsView = lazy(() => import("./views/ModelsView").then((module) => ({ default: module.ModelsView })));
 const AssetsView = lazy(() => import("./views/AssetsView").then((module) => ({ default: module.AssetsView })));
 const MotionsView = lazy(() => import("./views/MotionsView").then((module) => ({ default: module.MotionsView })));
@@ -35,6 +39,10 @@ export default function App() {
 
   return <AppShell route={route} onNavigate={navigate} status={status} busy={busy}>
     <Suspense fallback={<div className="route-loading">正在准备工作台…</div>}>
+      {route === "overview" && <OverviewView report={report} />}
+      {route === "intents" && <DialogueView report={report} />}
+      {route === "unmatched" && <UnmatchedView report={report} />}
+      {route === "requests" && <RequestsView report={report} />}
       {route === "studio" && <StudioView series={series} assets={assets} motions={motions} reload={reload} report={report} />}
       {route === "models" && <ModelsView assets={assets} reload={reload} report={report} />}
       {route === "assets" && <AssetsView assets={assets} reload={reload} report={report} />}

@@ -4,6 +4,7 @@ export type AssetKind = "MODEL" | "TEXTURE" | "THUMBNAIL" | "AUDIO" | "OTHER";
 export type AssetQuality = "LITE" | "BALANCED" | "FULL";
 export type AssetStatus = "UPLOADED" | "PROCESSING" | "READY" | "REJECTED" | "ARCHIVED";
 export type ReleaseStatus = "PUBLISHED" | "ROLLED_BACK" | "SUPERSEDED";
+export type MatchType = "EXACT" | "CONTAINS" | "REGEX";
 
 export type Variant = {
   id: number;
@@ -78,7 +79,16 @@ export type Release = {
   note: string | null;
 };
 
+export type DialogueTrigger = { id: number; matchType: MatchType; pattern: string; weight: number; enabled: boolean };
+export type DialogueReply = { id: number; content: string; weight: number; enabled: boolean };
+export type DialogueIntent = { id: number; code: string; name: string; description: string; priority: number; enabled: boolean; updatedAt: string; triggers: DialogueTrigger[]; replies: DialogueReply[] };
+export type DialogueOverview = { intentCount: number; triggerCount: number; replyCount: number; unresolvedCount: number; recentUnmatched: UnmatchedUtterance[] };
+export type UnmatchedUtterance = { id: number; content: string; occurrences: number; resolved: boolean; firstSeenAt: string; lastSeenAt: string };
+export type RequestLog = { id: string; sessionId: string | null; actor: string | null; method: string; path: string; statusCode: number; durationMs: number; clientIp: string | null; userAgent: string | null; createdAt: string };
+export type ConversationMessage = { id: string; role: "USER" | "ASSISTANT"; content: string; provider: string | null; intentCode: string | null; confidence: number | null; createdAt: string };
+export type RequestDetail = { request: RequestLog; messages: ConversationMessage[] };
+
 export type SeriesInput = Omit<Series, "id" | "publishedVersion" | "variants" | "updatedAt">;
 export type VariantInput = Omit<Variant, "id">;
 export type ApiResponse<T> = { code: number; message?: string; data: T };
-export type RouteKey = "studio" | "models" | "assets" | "motions" | "releases";
+export type RouteKey = "overview" | "intents" | "unmatched" | "requests" | "studio" | "models" | "assets" | "motions" | "releases";

@@ -3,10 +3,17 @@ import type {
   ApiResponse,
   Asset,
   AssetUpdateInput,
+  DialogueIntent,
+  DialogueOverview,
+  DialogueReply,
+  DialogueTrigger,
   QaStatus,
   Release,
+  RequestDetail,
+  RequestLog,
   Series,
   SeriesInput,
+  UnmatchedUtterance,
   VariantInput
 } from "./types";
 
@@ -18,7 +25,7 @@ class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+async function requestFrom<T>(root: string, path: string, init: RequestInit = {}): Promise<T> {
   const method = (init.method ?? "GET").toUpperCase();
   if (!isSafeMethod(method) && !readCookie("XSRF-TOKEN")) await establishAdminSession();
 
@@ -27,7 +34,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!(init.body instanceof FormData) && init.body && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
   if (csrfToken) headers.set("X-XSRF-TOKEN", decodeURIComponent(csrfToken));
 
-  const response = await fetch(`${API_ROOT}${path}`, { credentials: "include", ...init, headers });
+  const response = await fetch(`${root}${path}`, { credentials: "include", ...init, headers });
   if (response.status === 401 || response.status === 403) {
     redirectToLogin();
     throw new ApiError("管理员登录已失效", response.status);
@@ -44,6 +51,8 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   }
   return body as T;
 }
+
+const request = <T,>(path: string, init: RequestInit = {}) => requestFrom<T>(API_ROOT, path, init);
 
 async function readBody<T>(response: Response): Promise<ApiResponse<T> | T | null> {
   if (response.status === 204) return null;
@@ -96,6 +105,27 @@ export const blindboxApi = {
   listReleases: (seriesId?: number) => request<Release[]>(`/releases${seriesId ? `?seriesId=${seriesId}` : ""}`),
   publish: (seriesId: number, note: string) => request<Release>(`/series/${seriesId}/publish`, { method: "POST", body: json({ note }) }),
   rollback: (releaseId: number) => request<Release>(`/releases/${releaseId}/rollback`, { method: "POST", body: "{}" })
+};
+
+const DIALOGUE_ROOT = "/api/admin/dialogue";
+const dialogueRequest = <T,>(path: string, init: RequestInit = {}) => requestFrom<T>(DIALOGUE_ROOT, path, init);
+
+export const dialogueApi = {
+  overview: () => dialogueRequest<DialogueOverview>("/overview"),
+  listIntents: () => dialogueRequest<DialogueIntent[]>("/intents"),
+  createIntent: (input: Omit<DialogueIntent, "id" | "updatedAt" | "triggers" | "replies">) => dialogueRequest<DialogueIntent>("/intents", { method: "POST", body: json(input) }),
+  updateIntent: (id: number, input: Omit<DialogueIntent, "id" | "updatedAt" | "triggers" | "replies">) => dialogueRequest<DialogueIntent>(`/intents/${id}`, { method: "PUT", body: json(input) }),
+  deleteIntent: (id: number) => dialogueRequest<void>(`/intents/${id}`, { method: "DELETE" }),
+  createTrigger: (intentId: number, input: Omit<DialogueTrigger, "id">) => dialogueRequest<DialogueTrigger>(`/intents/${intentId}/triggers`, { method: "POST", body: json(input) }),
+  updateTrigger: (intentId: number, id: number, input: Omit<DialogueTrigger, "id">) => dialogueRequest<DialogueTrigger>(`/intents/${intentId}/triggers/${id}`, { method: "PUT", body: json(input) }),
+  deleteTrigger: (intentId: number, id: number) => dialogueRequest<void>(`/intents/${intentId}/triggers/${id}`, { method: "DELETE" }),
+  createReply: (intentId: number, input: Omit<DialogueReply, "id">) => dialogueRequest<DialogueReply>(`/intents/${intentId}/replies`, { method: "POST", body: json(input) }),
+  updateReply: (intentId: number, id: number, input: Omit<DialogueReply, "id">) => dialogueRequest<DialogueReply>(`/intents/${intentId}/replies/${id}`, { method: "PUT", body: json(input) }),
+  deleteReply: (intentId: number, id: number) => dialogueRequest<void>(`/intents/${intentId}/replies/${id}`, { method: "DELETE" }),
+  listUnmatched: () => dialogueRequest<UnmatchedUtterance[]>("/unmatched"),
+  resolveUnmatched: (id: number, resolved: boolean) => dialogueRequest<UnmatchedUtterance>(`/unmatched/${id}`, { method: "PATCH", body: json({ resolved }) }),
+  listRequests: () => dialogueRequest<RequestLog[]>("/requests"),
+  requestDetail: (id: string) => dialogueRequest<RequestDetail>(`/requests/${id}`),
 };
 
 export { ApiError };

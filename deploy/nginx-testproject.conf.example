@@ -30,9 +30,14 @@ server {
         add_header Cache-Control "no-cache" always;
     }
 
-    # Canonical management URL. Spring receives the /manage prefix unchanged.
+    # Canonical management URL opens the unified SPA. Legacy Spring management
+    # routes (including /manage/login) remain available below for authentication.
     location = /manage {
-        return 308 /manage/;
+        return 308 /manage-app/;
+    }
+
+    location = /manage/ {
+        return 308 /manage-app/;
     }
 
     location ^~ /manage/ {

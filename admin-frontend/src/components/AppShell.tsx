@@ -2,11 +2,15 @@ import type { ReactNode } from "react";
 import type { RouteKey } from "../types";
 
 const nav: { key: RouteKey; index: string; label: string; hint: string }[] = [
-  { key: "studio", index: "01", label: "盲盒工作台", hint: "系列与概率" },
-  { key: "models", index: "02", label: "模型管理", hint: "预览与版本" },
-  { key: "assets", index: "03", label: "素材库", hint: "贴图与声音" },
-  { key: "motions", index: "04", label: "动作质检", hint: "预览与验收" },
-  { key: "releases", index: "05", label: "发布记录", hint: "版本与回滚" }
+  { key: "overview", index: "01", label: "管理概览", hint: "全站状态" },
+  { key: "intents", index: "02", label: "意图与回答", hint: "对话规则" },
+  { key: "unmatched", index: "03", label: "未命中问题", hint: "待补充内容" },
+  { key: "requests", index: "04", label: "请求记录", hint: "操作链路" },
+  { key: "studio", index: "05", label: "盲盒工作台", hint: "系列与概率" },
+  { key: "models", index: "06", label: "模型管理", hint: "预览与版本" },
+  { key: "assets", index: "07", label: "素材库", hint: "贴图与声音" },
+  { key: "motions", index: "08", label: "动作质检", hint: "预览与验收" },
+  { key: "releases", index: "09", label: "发布记录", hint: "版本与回滚" }
 ];
 
 type Props = {
@@ -20,7 +24,7 @@ type Props = {
 export function AppShell({ route, onNavigate, status, busy, children }: Props) {
   return <div className="admin-shell">
     <aside className="sidebar">
-      <button className="brand" onClick={() => onNavigate("studio")}><span>庞</span><div><strong>庞菠菠</strong><small>BLINDBOX STUDIO</small></div></button>
+      <button className="brand" onClick={() => onNavigate("overview")}><span>庞</span><div><strong>庞菠菠</strong><small>UNIFIED CONSOLE</small></div></button>
       <nav aria-label="管理模块">
         {nav.map((item) => <button key={item.key} className={route === item.key ? "active" : ""} onClick={() => onNavigate(item.key)} aria-current={route === item.key ? "page" : undefined}>
           <i>{item.index}</i><span><b>{item.label}</b><small>{item.hint}</small></span>
