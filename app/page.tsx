@@ -41,7 +41,8 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="hero" id="top">
+      <div className="standard-home">
+        <section className="hero" id="top">
         <div className="eyebrow"><i /> 欢迎来坐坐</div>
         <h1>
           在数字世界里，
@@ -62,9 +63,9 @@ export default function Home() {
           <i className="moon-crater crater-two" />
           <i className="moon-crater crater-three" />
         </div>
-      </section>
+        </section>
 
-      <section className="about section" id="about">
+        <section className="about section" id="about">
         <p className="section-label">ABOUT / 关于</p>
         <div className="about-grid">
           <h2>喜欢简单的界面，<br />也喜欢复杂的问题。</h2>
@@ -76,9 +77,9 @@ export default function Home() {
             <p className="aside">目前状态：探索中，偶尔发呆。</p>
           </div>
         </div>
-      </section>
+        </section>
 
-      <section className="section" id="notes">
+        <section className="section" id="notes">
         <div className="section-heading">
           <p className="section-label">NOTES / 片段</p>
           <p>一些反复想起的事</p>
@@ -92,20 +93,52 @@ export default function Home() {
             </article>
           ))}
         </div>
-      </section>
+        </section>
 
-      <section className="contact section">
+        <section className="contact section">
         <p className="section-label">SAY HELLO / 打个招呼</p>
         <h2>如果你也在创造什么，<br />很高兴认识你。</h2>
         <a className="contact-link" href="https://github.com/skynamecat" target="_blank" rel="noreferrer">
           在 GitHub 找到我 <span aria-hidden="true">↗</span>
         </a>
-      </section>
+        </section>
 
-      <footer>
-        <p>© {new Date().getFullYear()} skynamecat</p>
-        <p>安静生长，保持浪漫。</p>
-      </footer>
+        <footer>
+          <p>© {new Date().getFullYear()} skynamecat</p>
+          <p>安静生长，保持浪漫。</p>
+        </footer>
+      </div>
+
+      <section className="minimal-home" aria-label="skynamecat 极简主页">
+        <div className="minimal-top-space" aria-hidden="true" />
+        <div className="minimal-identity">
+          <h1>skynamecat</h1>
+          <p>DEVELOPER · BUILDER · EXPLORER</p>
+          <span>互联网与 AI 产品探索者</span>
+        </div>
+        <div className="minimal-pet-space" aria-hidden="true" />
+        <div className="minimal-dialogue" aria-live="polite">
+          <article className="minimal-message is-lead">
+            <span>01</span>
+            <p>你好，我是 skynamecat。</p>
+          </article>
+          <article className="minimal-message">
+            <span>02</span>
+            <p>我在互联网里写代码、整理知识，也把偶尔冒出来的灵感做成小东西。</p>
+          </article>
+          <article className="minimal-message">
+            <span>03</span>
+            <p>这里是我的数字角落。慢慢看，随便坐。</p>
+          </article>
+          <a className="minimal-github" href="https://github.com/skynamecat" target="_blank" rel="noreferrer">
+            GitHub / 看看我做过的东西 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div className="minimal-dock" aria-label="介绍状态">
+          <span>庞菠菠正在介绍 skynamecat…</span>
+          <button type="button" disabled aria-label="介绍播放中">↑</button>
+        </div>
+      </section>
 
       <MusicControl />
       <PangboboLoader />

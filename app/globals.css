@@ -473,79 +473,126 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
 [data-display-mode="minimal"] .display-mode-icon i:first-child { width: 7px; }
 [data-display-mode="minimal"] .display-mode-icon i:last-child { width: 12px; }
 
-/* 阅读优先的极简模式：借鉴窄列、顶部留白和低干扰层级，但保留本站内容。 */
-[data-display-mode="minimal"] body { background-image: none; }
-[data-display-mode="minimal"] .site-header,
-[data-display-mode="minimal"] .section,
-[data-display-mode="minimal"] footer {
-  width: min(620px, calc(100% - 40px));
-}
-[data-display-mode="minimal"] .site-header { height: 68px; }
-[data-display-mode="minimal"] .header-actions { gap: 12px; }
-[data-display-mode="minimal"] nav { gap: 18px; }
-[data-display-mode="minimal"] .hero {
-  width: min(620px, calc(100% - 40px));
-  min-height: 0;
-  height: auto;
+.minimal-home { display: none; }
+
+/* 极简模式拥有独立内容与结构，沿用参考站的居中身份、3D 主体和介绍流。 */
+[data-display-mode="minimal"] body { min-width: 350px; }
+[data-display-mode="minimal"] .standard-home { display: none; }
+[data-display-mode="minimal"] .minimal-home {
+  position: relative;
+  z-index: 2;
+  width: min(520px, calc(100% - 20px));
+  min-height: 100svh;
   margin: 0 auto;
-  padding: clamp(150px, 22vh, 230px) 0 120px;
-  overflow: visible;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-[data-display-mode="minimal"] .hero::after,
-[data-display-mode="minimal"] .orb,
-[data-display-mode="minimal"] .moon { display: none; }
-[data-display-mode="minimal"] .eyebrow { margin-bottom: 26px; }
-[data-display-mode="minimal"] h1 {
-  max-width: 620px;
-  font-size: clamp(42px, 7vw, 70px);
-  line-height: 1.12;
-  letter-spacing: -.055em;
+[data-display-mode="minimal"] .minimal-home::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 26%, color-mix(in srgb, var(--moss) 28%, transparent) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 76% 18%, color-mix(in srgb, var(--ink) 18%, transparent) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 62% 68%, color-mix(in srgb, var(--moss) 18%, transparent) 0 1px, transparent 1.5px);
+  background-size: 190px 210px, 270px 230px, 330px 300px;
+  opacity: .38;
 }
-[data-display-mode="minimal"] .intro {
-  max-width: 540px;
-  margin-top: 30px;
-  font-size: 16px;
-  line-height: 2;
+[data-display-mode="minimal"] .site-header {
+  position: absolute;
+  width: 100%;
+  height: 58px;
+  padding: 0 14px;
+  justify-content: flex-end;
 }
-[data-display-mode="minimal"] .scroll-cue { margin-top: 42px; }
-[data-display-mode="minimal"] .section { padding: 92px 0; }
-[data-display-mode="minimal"] .section-label { margin-bottom: 36px; }
-[data-display-mode="minimal"] .about-grid {
-  grid-template-columns: 1fr;
-  gap: 34px;
+[data-display-mode="minimal"] .wordmark,
+[data-display-mode="minimal"] nav { display: none; }
+[data-display-mode="minimal"] .header-actions { gap: 9px; }
+.minimal-top-space { height: 20vh; min-height: 112px; }
+.minimal-identity { position: relative; z-index: 3; text-align: center; }
+.minimal-identity h1 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 680;
+  line-height: 1.2;
+  letter-spacing: -.045em;
 }
-[data-display-mode="minimal"] h2 {
-  font-size: clamp(32px, 5vw, 46px);
-  line-height: 1.28;
+.minimal-identity p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font: 10px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .1em;
 }
-[data-display-mode="minimal"] .about-copy { max-width: 520px; padding-top: 0; }
-[data-display-mode="minimal"] .aside { margin-top: 28px; }
-[data-display-mode="minimal"] .note-grid {
-  display: block;
-  border-bottom: 0;
+.minimal-identity span { display: block; margin-top: 7px; color: var(--dim); font-size: 12px; }
+.minimal-pet-space { width: 170px; height: 224px; }
+[data-display-mode="minimal"] .pangbobo-pet {
+  position: absolute;
+  left: 50% !important;
+  top: calc(max(20vh, 112px) + 64px);
+  bottom: auto;
+  transform: translateX(-50%) !important;
+  transition: none !important;
 }
-[data-display-mode="minimal"] .note-card {
-  min-height: 0;
-  padding: 30px 0;
+[data-display-mode="minimal"] .pangbobo-name { top: 0; }
+[data-display-mode="minimal"] .music-control { display: none; }
+.minimal-dialogue { width: 100%; display: grid; gap: 10px; }
+.minimal-message {
+  width: fit-content;
+  max-width: 88%;
+  padding: 12px 15px;
   display: grid;
-  grid-template-columns: 42px 150px 1fr;
-  align-items: baseline;
-  gap: 14px;
-  border-right: 0;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: 22px 1fr;
+  gap: 8px;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--panel) 82%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 7px 18px 18px 18px;
+  backdrop-filter: blur(10px);
 }
-[data-display-mode="minimal"] .note-card:hover { background: transparent; transform: none; }
-[data-display-mode="minimal"] .note-card h3 { margin: 0; font-size: 20px; }
-[data-display-mode="minimal"] .note-card p { max-width: none; }
-[data-display-mode="minimal"] .contact { text-align: left; }
-[data-display-mode="minimal"] .contact .section-label { margin-bottom: 36px; }
-[data-display-mode="minimal"] .contact-link { margin-top: 34px; }
-[data-display-mode="minimal"] .music-control,
-[data-display-mode="minimal"] .pangbobo-pet { display: none; }
-[data-display-mode="minimal"] .hero .eyebrow,
-[data-display-mode="minimal"] .hero h1,
-[data-display-mode="minimal"] .hero .intro,
-[data-display-mode="minimal"] .hero .scroll-cue { animation: none; }
+.minimal-message:nth-child(2) { margin-left: 34px; }
+.minimal-message:nth-child(3) { margin-left: 66px; }
+.minimal-message span { padding-top: 2px; color: var(--dim); font: 9px/1 ui-monospace, monospace; }
+.minimal-message p { margin: 0; font-size: 13px; line-height: 1.75; }
+.minimal-message.is-lead { color: var(--ink); }
+.minimal-github {
+  width: fit-content;
+  margin: 16px auto 0;
+  padding: 10px 2px;
+  color: var(--moss);
+  border-bottom: 1px solid currentColor;
+  font-size: 12px;
+}
+.minimal-github span { margin-left: 6px; }
+.minimal-dock {
+  position: sticky;
+  bottom: 18px;
+  width: 100%;
+  height: 50px;
+  margin: 78px 0 22px;
+  padding: 5px 5px 5px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--dim);
+  background: color-mix(in srgb, var(--music-bg) 94%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 14px 38px rgba(0,0,0,.12);
+  backdrop-filter: blur(18px);
+  font-size: 12px;
+}
+.minimal-dock button {
+  width: 38px;
+  height: 38px;
+  color: var(--dim);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 16px;
+}
 .theme-control:disabled { cursor: wait; }
 .theme-control:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; }
 .celestial-button {
@@ -698,18 +745,11 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   .error-message > p { font-size: 16px; }
   .home-link { margin-top: 32px; }
   .not-found-moon { right: -14px; top: 11%; width: 70px; opacity: .38; }
-  [data-display-mode="minimal"] .site-header,
-  [data-display-mode="minimal"] .hero,
-  [data-display-mode="minimal"] .section,
-  [data-display-mode="minimal"] footer { width: calc(100% - 36px); }
-  [data-display-mode="minimal"] .site-header nav { display: none; }
-  [data-display-mode="minimal"] .hero { padding: 138px 0 86px; }
-  [data-display-mode="minimal"] .section { padding: 72px 0; }
-  [data-display-mode="minimal"] .note-card {
-    grid-template-columns: 30px 1fr;
-    gap: 8px 12px;
-  }
-  [data-display-mode="minimal"] .note-card p { grid-column: 2; }
+  [data-display-mode="minimal"] .site-header { width: 100%; padding-inline: 10px; }
+  .minimal-message { max-width: 94%; }
+  .minimal-message:nth-child(2) { margin-left: 16px; }
+  .minimal-message:nth-child(3) { margin-left: 32px; }
+  .minimal-dock { width: calc(100% - 16px); margin-top: 60px; }
 }
 
 @media (max-width: 430px) {
