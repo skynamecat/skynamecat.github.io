@@ -5,7 +5,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 type ModelStageProps = { clipName: string; modelUrl?: string };
 
-export function ModelStage({ clipName, modelUrl = "/pangbobo/pangbobo-actions-lite.glb" }: ModelStageProps) {
+export function ModelStage({ clipName, modelUrl }: ModelStageProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [message, setMessage] = useState("正在加载模型…");
 
@@ -48,7 +48,7 @@ export function ModelStage({ clipName, modelUrl = "/pangbobo/pangbobo-actions-li
     let disposed = false;
 
     new GLTFLoader().load(
-      modelUrl,
+      modelUrl || "/pangbobo/pangbobo-actions-lite.glb",
       (gltf) => {
         if (disposed) return;
         const model = gltf.scene;
