@@ -16,3 +16,11 @@
 - 正式动作从无动画 FBX 建立，不从旧 Action 继续叠加。
 - 动画保持原地；网页位移由 Three.js 状态机控制。
 - 第一批只制作并验收 `Idle`、`Walk`、`Groove`。
+
+## 完整动作包
+
+```powershell
+.\tools\blender\build-action-pack.ps1
+```
+
+输出 `frontend/public/pangbobo/pangbobo-actions-complete.glb`，包含统一 28 骨骨架上的 24 个日常与舞蹈片段。构建会检查动作名称，缺少任何标准片段都会失败。
