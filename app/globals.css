@@ -448,6 +448,104 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   border-radius: 50%;
   cursor: pointer;
 }
+
+.display-mode-control {
+  height: 34px;
+  padding: 0 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  font: 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .08em;
+  transition: color .2s ease, border-color .2s ease, background .2s ease;
+}
+.display-mode-control:hover { color: var(--ink); border-color: var(--moss); }
+.display-mode-control:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; }
+.display-mode-icon { width: 12px; display: grid; gap: 3px; }
+.display-mode-icon i { display: block; height: 1px; background: currentColor; transition: width .25s ease; }
+.display-mode-icon i:first-child { width: 12px; }
+.display-mode-icon i:last-child { width: 7px; }
+[data-display-mode="minimal"] .display-mode-icon i:first-child { width: 7px; }
+[data-display-mode="minimal"] .display-mode-icon i:last-child { width: 12px; }
+
+/* 阅读优先的极简模式：借鉴窄列、顶部留白和低干扰层级，但保留本站内容。 */
+[data-display-mode="minimal"] body { background-image: none; }
+[data-display-mode="minimal"] .site-header,
+[data-display-mode="minimal"] .section,
+[data-display-mode="minimal"] footer {
+  width: min(620px, calc(100% - 40px));
+}
+[data-display-mode="minimal"] .site-header { height: 68px; }
+[data-display-mode="minimal"] .header-actions { gap: 12px; }
+[data-display-mode="minimal"] nav { gap: 18px; }
+[data-display-mode="minimal"] .hero {
+  width: min(620px, calc(100% - 40px));
+  min-height: 0;
+  height: auto;
+  margin: 0 auto;
+  padding: clamp(150px, 22vh, 230px) 0 120px;
+  overflow: visible;
+}
+[data-display-mode="minimal"] .hero::after,
+[data-display-mode="minimal"] .orb,
+[data-display-mode="minimal"] .moon { display: none; }
+[data-display-mode="minimal"] .eyebrow { margin-bottom: 26px; }
+[data-display-mode="minimal"] h1 {
+  max-width: 620px;
+  font-size: clamp(42px, 7vw, 70px);
+  line-height: 1.12;
+  letter-spacing: -.055em;
+}
+[data-display-mode="minimal"] .intro {
+  max-width: 540px;
+  margin-top: 30px;
+  font-size: 16px;
+  line-height: 2;
+}
+[data-display-mode="minimal"] .scroll-cue { margin-top: 42px; }
+[data-display-mode="minimal"] .section { padding: 92px 0; }
+[data-display-mode="minimal"] .section-label { margin-bottom: 36px; }
+[data-display-mode="minimal"] .about-grid {
+  grid-template-columns: 1fr;
+  gap: 34px;
+}
+[data-display-mode="minimal"] h2 {
+  font-size: clamp(32px, 5vw, 46px);
+  line-height: 1.28;
+}
+[data-display-mode="minimal"] .about-copy { max-width: 520px; padding-top: 0; }
+[data-display-mode="minimal"] .aside { margin-top: 28px; }
+[data-display-mode="minimal"] .note-grid {
+  display: block;
+  border-bottom: 0;
+}
+[data-display-mode="minimal"] .note-card {
+  min-height: 0;
+  padding: 30px 0;
+  display: grid;
+  grid-template-columns: 42px 150px 1fr;
+  align-items: baseline;
+  gap: 14px;
+  border-right: 0;
+  border-bottom: 1px solid var(--line);
+}
+[data-display-mode="minimal"] .note-card:hover { background: transparent; transform: none; }
+[data-display-mode="minimal"] .note-card h3 { margin: 0; font-size: 20px; }
+[data-display-mode="minimal"] .note-card p { max-width: none; }
+[data-display-mode="minimal"] .contact { text-align: left; }
+[data-display-mode="minimal"] .contact .section-label { margin-bottom: 36px; }
+[data-display-mode="minimal"] .contact-link { margin-top: 34px; }
+[data-display-mode="minimal"] .music-control,
+[data-display-mode="minimal"] .pangbobo-pet { display: none; }
+[data-display-mode="minimal"] .hero .eyebrow,
+[data-display-mode="minimal"] .hero h1,
+[data-display-mode="minimal"] .hero .intro,
+[data-display-mode="minimal"] .hero .scroll-cue { animation: none; }
 .theme-control:disabled { cursor: wait; }
 .theme-control:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; }
 .celestial-button {
@@ -600,6 +698,18 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   .error-message > p { font-size: 16px; }
   .home-link { margin-top: 32px; }
   .not-found-moon { right: -14px; top: 11%; width: 70px; opacity: .38; }
+  [data-display-mode="minimal"] .site-header,
+  [data-display-mode="minimal"] .hero,
+  [data-display-mode="minimal"] .section,
+  [data-display-mode="minimal"] footer { width: calc(100% - 36px); }
+  [data-display-mode="minimal"] .site-header nav { display: none; }
+  [data-display-mode="minimal"] .hero { padding: 138px 0 86px; }
+  [data-display-mode="minimal"] .section { padding: 72px 0; }
+  [data-display-mode="minimal"] .note-card {
+    grid-template-columns: 30px 1fr;
+    gap: 8px 12px;
+  }
+  [data-display-mode="minimal"] .note-card p { grid-column: 2; }
 }
 
 @media (max-width: 430px) {

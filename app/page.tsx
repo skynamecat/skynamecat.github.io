@@ -1,3 +1,4 @@
+import { DisplayModeControl } from "./display-mode-control";
 import { MusicControl } from "./music-control";
 import { PangboboLoader } from "./pangbobo-loader";
 import { ThemeControl } from "./theme-control";
@@ -35,6 +36,7 @@ export default function Home() {
               GitHub <span aria-hidden="true">↗</span>
             </a>
           </nav>
+          <DisplayModeControl />
           <ThemeControl />
         </div>
       </header>

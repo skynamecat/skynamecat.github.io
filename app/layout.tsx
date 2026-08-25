@@ -22,7 +22,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          try {
+            var mode = localStorage.getItem("sky-display-mode");
+            document.documentElement.dataset.displayMode = mode === "minimal" ? "minimal" : "standard";
+          } catch (_) {
+            document.documentElement.dataset.displayMode = "standard";
+          }
+        ` }} />
+      </head>
       <body>{children}</body>
     </html>
   );
