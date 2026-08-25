@@ -1,4 +1,5 @@
 import { DisplayModeControl } from "./display-mode-control";
+import { BottomLinks } from "./bottom-links";
 import { MinimalDialogue } from "./minimal-dialogue";
 import { MusicControl } from "./music-control";
 import { PangboboLoader } from "./pangbobo-loader";
@@ -23,6 +24,8 @@ const notes = [
 ];
 
 export default function Home() {
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
+
   return (
     <main>
       <header className="site-header">
@@ -104,6 +107,8 @@ export default function Home() {
         </a>
         </section>
 
+        <BottomLinks supportEmail={supportEmail} />
+
         <footer>
           <p>© {new Date().getFullYear()} skynamecat</p>
           <p>安静生长，保持浪漫。</p>
@@ -118,6 +123,7 @@ export default function Home() {
           <span>互联网与 AI 产品探索者</span>
         </div>
         <MinimalDialogue />
+        <BottomLinks supportEmail={supportEmail} compact />
       </section>
 
       <MusicControl />

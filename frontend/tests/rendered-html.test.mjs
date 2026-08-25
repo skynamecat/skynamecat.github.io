@@ -10,6 +10,8 @@ test("exports the homepage as static HTML", async () => {
   assert.match(html, /<title>skynamecat — 数字世界里的安静角落<\/title>/);
   assert.match(html, /在数字世界里/);
   assert.match(html, /安静的地方/);
+  assert.match(html, /庞菠菠盲盒/);
+  assert.match(html, /客服邮箱/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
   await access(new URL("og.png", outputRoot));
 });
