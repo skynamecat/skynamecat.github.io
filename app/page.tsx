@@ -116,7 +116,6 @@ export default function Home() {
           <p>DEVELOPER · BUILDER · EXPLORER</p>
           <span>互联网与 AI 产品探索者</span>
         </div>
-        <div className="minimal-mark" aria-hidden="true">°</div>
         <div className="minimal-dialogue" aria-live="polite">
           <article className="minimal-message is-lead">
             <span>01</span>
