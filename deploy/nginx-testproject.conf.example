@@ -9,6 +9,16 @@ server {
     root /www/wwwroot/testProject;
     index index.html;
 
+    # The management SPA is built and deployed independently from the public site.
+    location = /manage-app {
+        return 308 /manage-app/;
+    }
+
+    location ^~ /manage-app/ {
+        try_files $uri $uri/ /manage-app/index.html;
+        add_header Cache-Control "no-cache" always;
+    }
+
     # Canonical management URL. Spring receives the /manage prefix unchanged.
     location = /manage {
         return 308 /manage/;

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -23,5 +24,17 @@ public class ApiExceptionHandler {
     ResponseEntity<ApiResponse<ApiError>> handleInvalidChatRequest(InvalidChatRequestException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponse<>(4001, new ApiError(exception.getMessage())));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    ResponseEntity<ApiResponse<ApiError>> handleNotFound(EntityNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>(4041, new ApiError(exception.getMessage())));
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    ResponseEntity<ApiResponse<ApiError>> handleConflict(IllegalStateException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>(4091, new ApiError(exception.getMessage())));
     }
 }

@@ -15,6 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.http.HttpStatus;
 
 @Configuration
 public class ManageSecurityConfig {
@@ -24,11 +28,18 @@ public class ManageSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers("/api/v1/chat", "/api/public/**"))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/manage/login", "/manage/assets/**", "/error").permitAll()
+                        .requestMatchers("/api/public/**", "/api/v1/chat").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/manage/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
+                .exceptionHandling(exceptions -> exceptions.defaultAuthenticationEntryPointFor(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                        PathPatternRequestMatcher.pathPattern("/api/admin/**")))
                 .formLogin(form -> form
                         .loginPage("/manage/login")
                         .loginProcessingUrl("/manage/login")
