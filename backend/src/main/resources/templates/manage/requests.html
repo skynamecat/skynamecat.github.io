@@ -5,7 +5,7 @@
   <header class="page-header"><div><p class="eyebrow">REQUEST TRACE</p><h1>用户请求记录</h1><p class="muted">最近 200 次 API 与管理操作，可按请求编号追踪完整链路。</p></div></header>
   <div class="table-wrap">
     <div class="empty" th:if="${#lists.isEmpty(requests)}">还没有请求记录。</div>
-    <table th:unless="${#lists.isEmpty(requests)}">
+    <table class="request-table" th:unless="${#lists.isEmpty(requests)}">
       <thead><tr><th>时间</th><th>操作</th><th>状态</th><th>耗时</th><th>来源</th><th>会话</th><th></th></tr></thead>
       <tbody><tr th:each="item : ${requests}">
         <td th:text="${item.createdAt}">时间</td>
