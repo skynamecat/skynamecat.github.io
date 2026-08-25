@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://skynamecat.github.io"),
   title: "skynamecat — 数字世界里的安静角落",
   description: "skynamecat 的个人主页：想法、创造，以及一些不急着抵达的探索。",
+  icons: {
+    icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml" }],
+    shortcut: "/favicon.svg?v=2",
+  },
   openGraph: {
     title: "skynamecat — 数字世界里的安静角落",
     description: "想法、创造，以及一些不急着抵达的探索。",
