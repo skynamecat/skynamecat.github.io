@@ -1,10 +1,9 @@
 $ErrorActionPreference = "Stop"
 $workspace = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
-$sourceRoot = Join-Path $workspace "testDeepSeekHarness\testDeepSeekHarness\resource\pangbobo"
 $assets = @(
     (Join-Path $workspace "frontend\public\pangbobo\pangbobo-actions-lite.glb"),
-    (Join-Path $sourceRoot "pangbobo-hiphop.glb"),
-    (Join-Path $sourceRoot "pangbobo.glb"),
+    (Join-Path $workspace "frontend\public\pangbobo\pangbobo-hiphop.glb"),
+    (Join-Path $workspace "frontend\public\pangbobo\pangbobo-actions-complete.glb"),
     "C:\Users\skynamecat\Documents\ChatGPT\庞菠菠.fbx"
 ) | Where-Object { Test-Path -LiteralPath $_ }
 

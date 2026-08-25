@@ -52,6 +52,3 @@ yarn-error.log*
 
 # Disposable local conversion/build work
 /tmp/
-
-# Imported 3D experiments are migration sources, not production artifacts
-/testDeepSeekHarness/
