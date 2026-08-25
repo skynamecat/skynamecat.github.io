@@ -28,6 +28,16 @@ const rarityCopy: Record<BlindboxRarity, { label: string; mark: string }> = {
 };
 
 const COLLECTION_KEY = "pangbobo-blindbox-collection-v2";
+const HISTORY_KEY = "pangbobo-blindbox-history-v1";
+
+type DrawHistoryEntry = {
+  id: string;
+  seriesCode: string;
+  variantCode: string;
+  drawnAt: string;
+};
+
+type BlindboxPanel = "collection" | "history" | null;
 
 function loadCollection() {
   try {
@@ -36,6 +46,34 @@ function loadCollection() {
   } catch {
     return [];
   }
+}
+
+function loadHistory(): DrawHistoryEntry[] {
+  try {
+    const value = JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]");
+    if (!Array.isArray(value)) return [];
+    return value.filter((item): item is DrawHistoryEntry => (
+      item !== null
+      && typeof item === "object"
+      && typeof item.id === "string"
+      && typeof item.seriesCode === "string"
+      && typeof item.variantCode === "string"
+      && typeof item.drawnAt === "string"
+    )).slice(0, 100);
+  } catch {
+    return [];
+  }
+}
+
+function historyTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "刚刚";
+  return new Intl.DateTimeFormat("zh-CN", {
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
 }
 
 function identity(seriesCode: string, variantCode: string) {
@@ -55,7 +93,8 @@ export function BlindboxClient() {
   const [selected, setSelected] = useState<BlindboxVariant | null>(null);
   const [opening, setOpening] = useState(false);
   const [collection, setCollection] = useState<string[]>([]);
-  const [collectionOpen, setCollectionOpen] = useState(false);
+  const [history, setHistory] = useState<DrawHistoryEntry[]>([]);
+  const [panel, setPanel] = useState<BlindboxPanel>(null);
   const openingTimerRef = useRef<number | null>(null);
   const collectionCloseRef = useRef<HTMLButtonElement>(null);
 
@@ -68,7 +107,10 @@ export function BlindboxClient() {
         value.series.some((series) => series.code === current) ? current : value.series[0]?.code ?? "daily"
       ));
     });
-    const collectionTimer = window.setTimeout(() => setCollection(loadCollection()), 0);
+    const collectionTimer = window.setTimeout(() => {
+      setCollection(loadCollection());
+      setHistory(loadHistory());
+    }, 0);
     return () => {
       active = false;
       window.clearTimeout(collectionTimer);
@@ -77,9 +119,9 @@ export function BlindboxClient() {
   }, []);
 
   useEffect(() => {
-    if (!collectionOpen) return;
+    if (!panel) return;
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setCollectionOpen(false);
+      if (event.key === "Escape") setPanel(null);
     };
     const focusTimer = window.setTimeout(() => collectionCloseRef.current?.focus(), 0);
     window.addEventListener("keydown", closeOnEscape);
@@ -87,7 +129,7 @@ export function BlindboxClient() {
       window.clearTimeout(focusTimer);
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [collectionOpen]);
+  }, [panel]);
 
   const series = useMemo<BlindboxSeries | null>(() => (
     manifest?.series.find((item) => item.code === activeCode) ?? manifest?.series[0] ?? null
@@ -105,13 +147,24 @@ export function BlindboxClient() {
       setOpening(false);
       openingTimerRef.current = null;
       const key = identity(series.code, variant.code);
+      const historyEntry: DrawHistoryEntry = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        seriesCode: series.code,
+        variantCode: variant.code,
+        drawnAt: new Date().toISOString(),
+      };
+      setHistory((current) => {
+        const next = [historyEntry, ...current].slice(0, 100);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+        return next;
+      });
       setCollection((current) => {
         if (current.includes(key)) return current;
         const next = [...current, key];
         localStorage.setItem(COLLECTION_KEY, JSON.stringify(next));
         return next;
       });
-    }, 760);
+    }, 1280);
   };
 
   const selectSeries = (nextSeries: BlindboxSeries) => {
@@ -120,12 +173,12 @@ export function BlindboxClient() {
     setActiveCode(nextSeries.code);
     setSelected(null);
     setOpening(false);
-    setCollectionOpen(false);
+    setPanel(null);
   };
 
   const revealCollected = (variant: BlindboxVariant) => {
     setSelected(variant);
-    setCollectionOpen(false);
+    setPanel(null);
   };
 
   return (
@@ -169,6 +222,7 @@ export function BlindboxClient() {
               <i className="box-side" />
               <i className="box-shadow" />
             </div>
+            {opening && <div className="blindbox-opening-burst" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>}
             <div className="blindbox-stage-copy">
               <p>{opening ? "盒子里有一点动静…" : series?.description ?? "正在准备今天的盒子。"}</p>
               <button type="button" onClick={openBox} disabled={!series || opening}>
@@ -201,7 +255,7 @@ export function BlindboxClient() {
               <p>{selected.description}</p>
               <div className="blindbox-actions">
                 <button type="button" onClick={() => setSelected(null)}>再拆一只</button>
-                <button type="button" onClick={() => setCollectionOpen(true)}>查看图鉴</button>
+                <button type="button" onClick={() => setPanel("collection")}>查看图鉴</button>
               </div>
             </div>
           </div>
@@ -209,31 +263,37 @@ export function BlindboxClient() {
       </section>
 
       <aside className="blindbox-progress" aria-label="收集进度">
-        <button type="button" onClick={() => setCollectionOpen(true)} disabled={!series}>
-          <span>MY SHELF</span>
-          <strong>{seriesCollection.length.toString().padStart(2, "0")} / {series?.variants.length.toString().padStart(2, "0") ?? "--"}</strong>
-        </button>
-        <div><i style={{ width: `${series ? seriesCollection.length / series.variants.length * 100 : 0}%` }} /></div>
+        <div className="blindbox-progress-actions">
+          <button type="button" onClick={() => setPanel("collection")} disabled={!series}>
+            <span>MY SHELF</span>
+            <strong>{seriesCollection.length.toString().padStart(2, "0")} / {series?.variants.length.toString().padStart(2, "0") ?? "--"}</strong>
+          </button>
+          <button type="button" onClick={() => setPanel("history")} disabled={history.length === 0}>
+            <span>HISTORY</span>
+            <strong>{history.length.toString().padStart(2, "0")}</strong>
+          </button>
+        </div>
+        <div className="blindbox-progress-meter"><i style={{ width: `${series ? seriesCollection.length / series.variants.length * 100 : 0}%` }} /></div>
       </aside>
 
-      {collectionOpen && series && (
+      {panel && series && (
         <div className="blindbox-collection-backdrop">
           <button
             className="blindbox-collection-dismiss"
             type="button"
-            onClick={() => setCollectionOpen(false)}
-            aria-label="关闭图鉴"
+            onClick={() => setPanel(null)}
+            aria-label="关闭面板"
             tabIndex={-1}
           />
-          <section className="blindbox-collection" role="dialog" aria-modal="true" aria-labelledby="collection-title">
+          <section className="blindbox-collection" role="dialog" aria-modal="true" aria-labelledby="blindbox-panel-title">
             <header>
               <div>
-                <p>COLLECTION / {series.code.toUpperCase()}</p>
-                <h2 id="collection-title">我的庞菠菠图鉴</h2>
+                <p>{panel === "collection" ? `COLLECTION / ${series.code.toUpperCase()}` : "DRAW HISTORY / RECENT 100"}</p>
+                <h2 id="blindbox-panel-title">{panel === "collection" ? "我的庞菠菠图鉴" : "相遇记录"}</h2>
               </div>
-              <button ref={collectionCloseRef} type="button" onClick={() => setCollectionOpen(false)} aria-label="关闭图鉴">×</button>
+              <button ref={collectionCloseRef} type="button" onClick={() => setPanel(null)} aria-label="关闭面板">×</button>
             </header>
-            <div className="blindbox-collection-grid">
+            {panel === "collection" ? <div className="blindbox-collection-grid">
               {series.variants.map((variant, index) => {
                 const unlocked = collection.includes(identity(series.code, variant.code));
                 return (
@@ -251,7 +311,22 @@ export function BlindboxClient() {
                   </button>
                 );
               })}
-            </div>
+            </div> : <div className="blindbox-history-list">
+              {history.map((entry) => {
+                const entrySeries = manifest?.series.find((item) => item.code === entry.seriesCode);
+                const variant = entrySeries?.variants.find((item) => item.code === entry.variantCode);
+                return (
+                  <article key={entry.id}>
+                    <span>{rarityCopy[variant?.rarity ?? "COMMON"].mark}</span>
+                    <div>
+                      <strong>{variant?.name ?? entry.variantCode}</strong>
+                      <small>{entrySeries?.name ?? entry.seriesCode}</small>
+                    </div>
+                    <time dateTime={entry.drawnAt}>{historyTime(entry.drawnAt)}</time>
+                  </article>
+                );
+              })}
+            </div>}
           </section>
         </div>
       )}
