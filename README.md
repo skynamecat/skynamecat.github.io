@@ -52,15 +52,6 @@ npm run dev
 
 管理端开发地址为 `http://localhost:4173/manage-app/`，API 由 Vite 代理到本地 Spring Boot。
 
-主页底部客服邮箱通过构建环境变量配置：
-
-```powershell
-$env:NEXT_PUBLIC_SUPPORT_EMAIL='你的客服邮箱'
-```
-
-GitHub Pages 发布时，在仓库的 `Settings → Secrets and variables → Actions → Variables`
-中添加同名变量 `NEXT_PUBLIC_SUPPORT_EMAIL` 即可。
-
 ## 验证
 
 ```powershell

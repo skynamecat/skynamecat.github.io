@@ -187,7 +187,6 @@ h2 { margin: 0; font-size: clamp(36px, 4.8vw, 64px); line-height: 1.22; font-wei
 .bottom-link-action { color: var(--dim); font: 10px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; }
 .bottom-link-action i { display: inline-block; margin-left: 9px; color: var(--moss); font-style: normal; transition: transform .2s ease; }
 .bottom-link-row:hover .bottom-link-action i { transform: translateX(4px); }
-.bottom-link-row.is-disabled { opacity: .62; }
 footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 40px; display: flex; justify-content: space-between; color: #646864; border-top: 1px solid var(--line); font-size: 11px; letter-spacing: .06em; }
 
 .music-control {

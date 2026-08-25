@@ -47,6 +47,8 @@ export function BlindboxViewer({ seriesCode, animationClip, variantName, modelAs
     let dragging = false;
     let pointerX = 0;
     let desiredRotation = 0;
+    const normalizedAnimation = animationClip.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const wholeBodySpin = normalizedAnimation === "spin";
     const webglProbe = document.createElement("canvas");
     if (!webglProbe.getContext("webgl2") && !webglProbe.getContext("webgl")) {
       window.setTimeout(() => setStatus("当前浏览器不支持 3D，卡片仍可正常收藏"), 0);
@@ -109,7 +111,7 @@ export function BlindboxViewer({ seriesCode, animationClip, variantName, modelAs
       if (disposed) return;
       const delta = Math.min(clock.getDelta(), 0.05);
       if (model) {
-        if (!dragging) desiredRotation += delta * 0.14;
+        if (!dragging) desiredRotation += delta * (wholeBodySpin ? 2.35 : 0.14);
         model.rotation.y = THREE.MathUtils.damp(model.rotation.y, desiredRotation, 8, delta);
       }
       mixer?.update(delta);
@@ -144,7 +146,7 @@ export function BlindboxViewer({ seriesCode, animationClip, variantName, modelAs
 
           if (gltf.animations.length > 0) {
             mixer = new THREE.AnimationMixer(model);
-            const normalizedName = animationClip.toLowerCase().replace(/[^a-z0-9]/g, "");
+            const normalizedName = wholeBodySpin ? "idle" : normalizedAnimation;
             const clip = gltf.animations.find((candidate) => (
               candidate.name.toLowerCase().replace(/[^a-z0-9]/g, "") === normalizedName
             )) ?? gltf.animations.find((candidate) => candidate.name === "Idle") ?? gltf.animations[0];

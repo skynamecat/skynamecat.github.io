@@ -24,8 +24,6 @@ const notes = [
 ];
 
 export default function Home() {
-  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
-
   return (
     <main>
       <header className="site-header">
@@ -107,7 +105,7 @@ export default function Home() {
         </a>
         </section>
 
-        <BottomLinks supportEmail={supportEmail} />
+        <BottomLinks />
 
         <footer>
           <p>© {new Date().getFullYear()} skynamecat</p>
@@ -123,7 +121,7 @@ export default function Home() {
           <span>互联网与 AI 产品探索者</span>
         </div>
         <MinimalDialogue />
-        <BottomLinks supportEmail={supportEmail} compact />
+        <BottomLinks compact />
       </section>
 
       <MusicControl />
