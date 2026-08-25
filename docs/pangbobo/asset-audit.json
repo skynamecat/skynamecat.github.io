@@ -1,0 +1,322 @@
+{
+  "blenderVersion": "5.2.0 LTS",
+  "assets": [
+    {
+      "path": "C:/Users/skynamecat/Documents/ChatGPT/skynamecat.github.io/frontend/public/pangbobo/pangbobo-actions-lite.glb",
+      "sizeBytes": 654720,
+      "armatures": [
+        {
+          "name": "Armature",
+          "boneCount": 28
+        }
+      ],
+      "boneNames": [
+        "Head",
+        "Head_end",
+        "Hips",
+        "LeftArm",
+        "LeftFoot",
+        "LeftForeArm",
+        "LeftHand",
+        "LeftHand_end",
+        "LeftLeg",
+        "LeftShoulder",
+        "LeftToeBase",
+        "LeftToeBase_end",
+        "LeftUpLeg",
+        "Neck",
+        "RightArm",
+        "RightFoot",
+        "RightForeArm",
+        "RightHand",
+        "RightHand_end",
+        "RightLeg",
+        "RightShoulder",
+        "RightToeBase",
+        "RightToeBase_end",
+        "RightUpLeg",
+        "Spine",
+        "Spine1",
+        "Spine2",
+        "root"
+      ],
+      "meshCount": 2,
+      "vertexCount": 3254,
+      "materialCount": 1,
+      "imageCount": 3,
+      "actions": [
+        {
+          "name": "Drink",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "EatCake",
+          "frameStart": 1.0,
+          "frameEnd": 72.0,
+          "durationSeconds": 2.958,
+          "slots": 1
+        },
+        {
+          "name": "Happy",
+          "frameStart": 1.0,
+          "frameEnd": 28.0,
+          "durationSeconds": 1.125,
+          "slots": 1
+        },
+        {
+          "name": "Idle",
+          "frameStart": 1.0,
+          "frameEnd": 60.0,
+          "durationSeconds": 2.458,
+          "slots": 1
+        },
+        {
+          "name": "Laptop",
+          "frameStart": 1.0,
+          "frameEnd": 60.0,
+          "durationSeconds": 2.458,
+          "slots": 1
+        },
+        {
+          "name": "Look",
+          "frameStart": 1.0,
+          "frameEnd": 78.0,
+          "durationSeconds": 3.208,
+          "slots": 1
+        },
+        {
+          "name": "Music",
+          "frameStart": 1.0,
+          "frameEnd": 36.0,
+          "durationSeconds": 1.458,
+          "slots": 1
+        },
+        {
+          "name": "Phone",
+          "frameStart": 1.0,
+          "frameEnd": 72.0,
+          "durationSeconds": 2.958,
+          "slots": 1
+        },
+        {
+          "name": "Rest",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "Stretch",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "Walk",
+          "frameStart": 1.0,
+          "frameEnd": 25.0,
+          "durationSeconds": 1.0,
+          "slots": 1
+        },
+        {
+          "name": "Wave",
+          "frameStart": 1.0,
+          "frameEnd": 40.0,
+          "durationSeconds": 1.625,
+          "slots": 1
+        }
+      ]
+    },
+    {
+      "path": "C:/Users/skynamecat/Documents/ChatGPT/skynamecat.github.io/testDeepSeekHarness/testDeepSeekHarness/resource/pangbobo/pangbobo-hiphop.glb",
+      "sizeBytes": 3817052,
+      "armatures": [
+        {
+          "name": "Armature",
+          "boneCount": 28
+        }
+      ],
+      "boneNames": [
+        "Head",
+        "Head_end",
+        "Hips",
+        "LeftArm",
+        "LeftFoot",
+        "LeftForeArm",
+        "LeftHand",
+        "LeftHand_end",
+        "LeftLeg",
+        "LeftShoulder",
+        "LeftToeBase",
+        "LeftToeBase_end",
+        "LeftUpLeg",
+        "Neck",
+        "RightArm",
+        "RightFoot",
+        "RightForeArm",
+        "RightHand",
+        "RightHand_end",
+        "RightLeg",
+        "RightShoulder",
+        "RightToeBase",
+        "RightToeBase_end",
+        "RightUpLeg",
+        "Spine",
+        "Spine1",
+        "Spine2",
+        "root"
+      ],
+      "meshCount": 2,
+      "vertexCount": 9268,
+      "materialCount": 1,
+      "imageCount": 3,
+      "actions": [
+        {
+          "name": "ArmWave",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "BodyWave",
+          "frameStart": 1.0,
+          "frameEnd": 60.0,
+          "durationSeconds": 2.458,
+          "slots": 1
+        },
+        {
+          "name": "Bounce",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "Freeze",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "FunkBlast",
+          "frameStart": 1.0,
+          "frameEnd": 96.0,
+          "durationSeconds": 3.958,
+          "slots": 1
+        },
+        {
+          "name": "Groove",
+          "frameStart": 1.0,
+          "frameEnd": 72.0,
+          "durationSeconds": 2.958,
+          "slots": 1
+        },
+        {
+          "name": "KickStep",
+          "frameStart": 1.0,
+          "frameEnd": 72.0,
+          "durationSeconds": 2.958,
+          "slots": 1
+        },
+        {
+          "name": "Lock",
+          "frameStart": 1.0,
+          "frameEnd": 60.0,
+          "durationSeconds": 2.458,
+          "slots": 1
+        },
+        {
+          "name": "Pop",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "Robot",
+          "frameStart": 1.0,
+          "frameEnd": 60.0,
+          "durationSeconds": 2.458,
+          "slots": 1
+        },
+        {
+          "name": "Slide",
+          "frameStart": 1.0,
+          "frameEnd": 48.0,
+          "durationSeconds": 1.958,
+          "slots": 1
+        },
+        {
+          "name": "Spin",
+          "frameStart": 1.0,
+          "frameEnd": 60.0,
+          "durationSeconds": 2.458,
+          "slots": 1
+        }
+      ]
+    },
+    {
+      "path": "C:/Users/skynamecat/Documents/ChatGPT/skynamecat.github.io/testDeepSeekHarness/testDeepSeekHarness/resource/pangbobo/pangbobo.glb",
+      "sizeBytes": 26956492,
+      "armatures": [],
+      "boneNames": [],
+      "meshCount": 1,
+      "vertexCount": 597958,
+      "materialCount": 1,
+      "imageCount": 3,
+      "actions": []
+    },
+    {
+      "path": "C:/Users/skynamecat/Documents/ChatGPT/庞菠菠.fbx",
+      "sizeBytes": 30630652,
+      "armatures": [
+        {
+          "name": "Armature",
+          "boneCount": 28
+        }
+      ],
+      "boneNames": [
+        "Head",
+        "Head_end",
+        "Hips",
+        "LeftArm",
+        "LeftFoot",
+        "LeftForeArm",
+        "LeftHand",
+        "LeftHand_end",
+        "LeftLeg",
+        "LeftShoulder",
+        "LeftToeBase",
+        "LeftToeBase_end",
+        "LeftUpLeg",
+        "Neck",
+        "RightArm",
+        "RightFoot",
+        "RightForeArm",
+        "RightHand",
+        "RightHand_end",
+        "RightLeg",
+        "RightShoulder",
+        "RightToeBase",
+        "RightToeBase_end",
+        "RightUpLeg",
+        "Spine",
+        "Spine1",
+        "Spine2",
+        "root"
+      ],
+      "meshCount": 1,
+      "vertexCount": 7733,
+      "materialCount": 1,
+      "imageCount": 4,
+      "actions": []
+    }
+  ],
+  "errors": []
+}
