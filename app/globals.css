@@ -529,10 +529,17 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
 .minimal-identity span { display: block; margin-top: 7px; color: var(--dim); font-size: 12px; }
 [data-display-mode="minimal"] .music-control,
 [data-display-mode="minimal"] .pangbobo-pet { display: none; }
-.minimal-dialogue { width: 100%; margin-top: 72px; display: grid; gap: 10px; }
-.minimal-message {
+.minimal-dialogue {
   width: 100%;
-  max-width: 100%;
+  margin-top: 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+.minimal-message {
+  width: fit-content;
+  max-width: 86%;
+  justify-self: start;
   padding: 12px 15px;
   display: grid;
   grid-template-columns: 22px 1fr;
@@ -543,6 +550,15 @@ footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 
   border-radius: 7px 18px 18px 18px;
   backdrop-filter: blur(10px);
 }
+.minimal-message.from-visitor {
+  grid-template-columns: 1fr 22px;
+  justify-self: end;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--moss) 13%, var(--panel));
+  border-radius: 18px 7px 18px 18px;
+}
+.minimal-message.from-visitor span { grid-column: 2; grid-row: 1; text-align: right; }
+.minimal-message.from-visitor p { grid-column: 1; grid-row: 1; text-align: right; }
 .minimal-message span { padding-top: 2px; color: var(--dim); font: 9px/1 ui-monospace, monospace; }
 .minimal-message p { margin: 0; font-size: 13px; line-height: 1.75; }
 .minimal-message.is-lead { color: var(--ink); }

@@ -117,17 +117,25 @@ export default function Home() {
           <span>互联网与 AI 产品探索者</span>
         </div>
         <div className="minimal-dialogue" aria-live="polite">
-          <article className="minimal-message is-lead">
-            <span>01</span>
+          <article className="minimal-message from-site is-lead">
+            <span>S</span>
             <p>你好，我是 skynamecat。</p>
           </article>
-          <article className="minimal-message">
-            <span>02</span>
-            <p>我在互联网里写代码、整理知识，也把偶尔冒出来的灵感做成小东西。</p>
+          <article className="minimal-message from-visitor">
+            <span>你</span>
+            <p>你平时在做什么？</p>
           </article>
-          <article className="minimal-message">
-            <span>03</span>
-            <p>这里是我的数字角落。慢慢看，随便坐。</p>
+          <article className="minimal-message from-site">
+            <span>S</span>
+            <p>写代码、整理知识，也把偶尔冒出来的灵感做成小东西。</p>
+          </article>
+          <article className="minimal-message from-visitor">
+            <span>你</span>
+            <p>这里可以看到什么？</p>
+          </article>
+          <article className="minimal-message from-site">
+            <span>S</span>
+            <p>想法、作品，以及一些不急着抵达的探索。慢慢看，随便坐。</p>
           </article>
           <a className="minimal-github" href="https://github.com/skynamecat" target="_blank" rel="noreferrer">
             GitHub / 看看我做过的东西 <span aria-hidden="true">↗</span>
